@@ -1,0 +1,15 @@
+export enum Recurso {
+    Mana = "Maná",
+    Escudo = "Escudo",
+    Consume_vida = "Consume vida",
+    Sin_Mana = "Sin Maná",
+    Sed_de_sangre = "Sed de sangre",
+    Energia = "Energía",
+    Valor = "Valor",
+    Rabia = "Rabia",
+    Furia = "Furia",
+    Determinacion = "Determinación",
+    Flujo = "Flujo",
+    Calor = "Calor",
+    Ferocidad = "Ferocidad",
+}

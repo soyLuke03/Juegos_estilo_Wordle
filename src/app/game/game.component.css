@@ -1,0 +1,70 @@
+.container-game {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-guesses {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.showChampsInSearch{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.campeon-posible {
+    margin: 5px;
+    width: 100px;
+    height: 40px;
+}
+
+.container-intentos{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.intentos {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    border-style: ridge;
+}
+
+
+/*
+
+* Estilos para los botones de intento
+
+*/
+
+.correcto {
+    background-color: green;
+    font-weight: bolder;
+    color: white;
+}
+
+.partial {
+    background-color: orange;
+    font-weight: bolder;
+    color: white;
+}
+
+.incorrecto {
+    background-color: red;
+    font-weight: bolder;
+    color: white;
+}

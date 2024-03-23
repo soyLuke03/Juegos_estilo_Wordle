@@ -1,0 +1,94 @@
+<div class="container-game">
+    <div class="container-guess-champ">
+        <h1><u>ADIVINA EL CAMPEÓN</u></h1>
+        <hr>
+        <span style="font-weight: bolder;">El campeón es: </span><span class="campeon-elegido">
+            <span *ngIf="victoria">{{ campeonElegido.nombre }}</span>
+        </span>
+        <hr>
+    </div>
+    <div class="container-guesses">
+        <input [disabled]="victoria" [(ngModel)]="inputSearch" (keyup)="showChampsInSearch()" autocomplete="off" type="input" id="guess"
+            name="guess">
+        <span class="showChampsInSearch" *ngIf="showChamps">
+            <button class="campeon-posible" *ngFor="let campeonPosible of campeonesPosiblesSegunBusqueda"
+                (click)="guessChamp(campeonPosible)">
+                {{ campeonPosible.nombre }}
+            </button>
+        </span>
+        <hr>
+        <div class="container-intentos" *ngFor="let campeon of campeonesDichos">
+
+            <span *ngIf="campeon.nombre == campeonElegido.nombre" class="intentos correcto">
+                <span>{{ campeon.nombre }}</span>
+            </span>
+            <span *ngIf="campeon.nombre != campeonElegido.nombre" class="intentos incorrecto">
+                <span>{{ campeon.nombre }}</span>
+            </span>
+
+            <span *ngIf="campeon.genero == campeonElegido.genero" class="intentos correcto">
+                <span>{{ campeon.genero }}</span>
+            </span>
+            <span *ngIf="campeon.genero != campeonElegido.genero" class="intentos incorrecto">
+                <span>{{ campeon.genero }}</span>
+            </span>
+
+            <span *ngIf="campeon.posicion == campeonElegido.posicion" class="intentos correcto">
+                <span>{{ campeon.posicion }}</span>
+            </span>
+            <span *ngIf="campeon.posicion != campeonElegido.posicion && isPartialMatch(campeon, campeonElegido, 'position')" class="intentos partial">
+                <span>{{ campeon.posicion }}</span>
+            </span>
+            <span *ngIf="campeon.posicion != campeonElegido.posicion && !isPartialMatch(campeon, campeonElegido, 'position')" class="intentos incorrecto">
+                <span>{{ campeon.posicion }}</span>
+            </span>
+
+            <span *ngIf="campeon.especie == campeonElegido.especie" class="intentos correcto">
+                <span>{{ campeon.especie }}</span>
+            </span>
+            <span *ngIf="campeon.especie != campeonElegido.especie" class="intentos incorrecto">
+                <span>{{ campeon.especie }}</span>
+            </span>
+
+            <span *ngIf="campeon.recurso == campeonElegido.recurso" class="intentos correcto">
+                <span>{{ campeon.recurso }}</span>
+            </span>
+            <span *ngIf="campeon.recurso != campeonElegido.recurso" class="intentos incorrecto">
+                <span>{{ campeon.recurso }}</span>
+            </span>
+
+            <span *ngIf="campeon.tipoDeCombate == campeonElegido.tipoDeCombate" class="intentos correcto">
+                <span>{{ campeon.tipoDeCombate }}</span>
+            </span>
+            <span *ngIf="campeon.tipoDeCombate != campeonElegido.tipoDeCombate && isPartialMatch(campeon, campeonElegido, 'tipoDeCombate')" class="intentos partial">
+                <span>{{ campeon.tipoDeCombate }}</span>
+            </span>
+            <span *ngIf="campeon.tipoDeCombate != campeonElegido.tipoDeCombate && !isPartialMatch(campeon, campeonElegido, 'tipoDeCombate')" class="intentos incorrecto">
+                <span>{{ campeon.tipoDeCombate }}</span>
+            </span>
+
+            <span *ngIf="campeon.region == campeonElegido.region" class="intentos correcto">
+                <span>{{ campeon.region }}</span>
+            </span>
+            <span *ngIf="campeon.region != campeonElegido.region && isPartialMatch(campeon, campeonElegido, 'region')" class="intentos partial">
+                <span>{{ campeon.region }}</span>
+            </span>
+            <span *ngIf="campeon.region != campeonElegido.region && !isPartialMatch(campeon, campeonElegido, 'region')" class="intentos incorrecto">
+                <span>{{ campeon.region }}</span>
+            </span>
+
+            <span *ngIf="isGreaterOrLesserDate(campeon, campeonElegido) == 0" class="intentos correcto">
+                <span>{{ campeon.fechaDeLanzamiento }}</span>
+            </span>
+            <span *ngIf="isGreaterOrLesserDate(campeon, campeonElegido) == 1" class="intentos incorrecto">
+                <span>{{ campeon.fechaDeLanzamiento }} ↓</span>
+            </span>
+            <span *ngIf="isGreaterOrLesserDate(campeon, campeonElegido) == -1" class="intentos incorrecto">
+                <span>{{ campeon.fechaDeLanzamiento }} ↑</span>
+            </span>
+
+        </div>
+    </div>
+
+    <button class="nuevo-juego" (click)="nuevoJuego()">NUEVO JUEGO</button>
+</div>
