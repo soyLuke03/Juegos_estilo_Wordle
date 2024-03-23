@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#My stuff
+como_desplegar.txt
+
 # Compiled output
 /dist
 /tmp

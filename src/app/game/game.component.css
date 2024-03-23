@@ -26,6 +26,10 @@
     height: 40px;
 }
 
+.nuevo-juego {
+    margin: 5px;
+}
+
 .container-intentos{
     display: flex;
     justify-content: center;
@@ -38,9 +42,8 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 100px;
+    width: 120px;
     height: 100px;
-    margin: auto;
     border-style: ridge;
 }
 
@@ -68,3 +71,4 @@
     font-weight: bolder;
     color: white;
 }
+
