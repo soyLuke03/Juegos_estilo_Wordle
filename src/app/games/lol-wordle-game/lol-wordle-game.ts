@@ -933,11 +933,11 @@ export class LolWordleGameComponent implements OnInit {
       nombre: "Soraka",
       genero: Genero.Femenino,
       posicion: [Posicion.Soporte],
-      especie: Especie.Humano_Nacido_con_magia,
+      especie: Especie.Celestial,
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
-      region: [Region.Jonia, Region.Demacia],
-      fechaDeLanzamiento: 2010
+      region: [Region.Jonia, Region.Targon],
+      fechaDeLanzamiento: 2009
     },
     {
       nombre: "Sona",
