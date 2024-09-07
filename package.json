@@ -1,6 +1,6 @@
 {
-  "name": "guess-the-champ",
-  "version": "0.0.0",
+  "name": "Multi-wordle",
+  "version": "0.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
