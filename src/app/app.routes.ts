@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { GameComponent } from './game/game.component';
+import { LolWordleGameComponent } from './games/lol-wordle-game/lol-wordle-game';
 
 export const routes: Routes = [
   { 
@@ -13,7 +13,7 @@ export const routes: Routes = [
       component: HomeComponent },
   { 
       path: 'home/LOL/play/Encontrar_el_campeon', 
-      component: GameComponent },
+      component: LolWordleGameComponent },
   {
       path: '**',
       redirectTo: 'home',

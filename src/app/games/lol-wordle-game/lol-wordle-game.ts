@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { Champion, ChampionCollection } from '../models/Champion.model';
-import { Especie } from '../models/Especie.model';
-import { Genero } from '../models/Genero.model';
-import { Posicion, PosicionCollection } from '../models/Posicion.model';
-import { Recurso } from '../models/Recurso.model';
-import { TipoDeCombate } from '../models/TipoDeCombate.model';
-import { Region } from '../models/Region.model';
+import { Champion, ChampionCollection } from '../../models/modelos-lol-wordle/Champion.model';
+import { Especie } from '../../models/modelos-lol-wordle/Especie.model';
+import { Genero } from '../../models/modelos-lol-wordle/Genero.model';
+import { Posicion } from '../../models/modelos-lol-wordle/Posicion.model';
+import { Recurso } from '../../models/modelos-lol-wordle/Recurso.model';
+import { TipoDeCombate } from '../../models/modelos-lol-wordle/TipoDeCombate.model';
+import { Region } from '../../models/modelos-lol-wordle/Region.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PuntosComponent } from '../puntos/puntos.component';
+import { PuntosComponent } from '../../puntos/puntos.component';
 import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
   standalone: true,
   imports: [CommonModule, FormsModule, PuntosComponent, RouterLink],
-  templateUrl: './game.component.html',
-  styleUrl: './game.component.css'
+  templateUrl: './lol-wordle-game.html',
+  styleUrl: './lol-wordle-game.css'
 })
-export class GameComponent implements OnInit {
+export class LolWordleGameComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
 
   ngOnInit(): void {
@@ -37,6 +38,16 @@ export class GameComponent implements OnInit {
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Zaun],
       fechaDeLanzamiento: 2013
+    },
+    {
+      nombre: "Smolder",
+      genero: Genero.Masculino,
+      posicion: [Posicion.Inferior],
+      especie: Especie.Dragon,
+      recurso: Recurso.Mana,
+      tipoDeCombate: [TipoDeCombate.A_distancia],
+      region: [Region.Camavor, Region.Noxus],
+      fechaDeLanzamiento: 2024
     },
     {
       nombre: "Nasus",
@@ -1837,4 +1848,7 @@ export class GameComponent implements OnInit {
     this.puntuacionBackUp = this.puntuacionTotal;
   }
 
+  returnHome(): void{
+    this.router.navigate(['/home'])
+  }
 }

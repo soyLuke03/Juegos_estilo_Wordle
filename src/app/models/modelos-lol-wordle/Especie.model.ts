@@ -38,4 +38,5 @@ export enum Especie {
     Brackern = "Brackern",
     Celestial = "Celestial",
     Darkin_Perro = "Darkin, Perro",
+    Dragon = "Dragón",
 }

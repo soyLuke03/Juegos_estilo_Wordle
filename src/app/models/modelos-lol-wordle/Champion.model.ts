@@ -1,8 +1,8 @@
-import { Especie } from "./Especie.model"
-import { Genero } from "./Genero.model"
-import { PosicionCollection } from "./Posicion.model"
-import { Recurso } from "./Recurso.model"
-import { RegionCollection } from "./Region.model"
+import { Especie } from "../modelos-lol-wordle/Especie.model"
+import { Genero } from "../modelos-lol-wordle/Genero.model"
+import { PosicionCollection } from "../modelos-lol-wordle/Posicion.model"
+import { Recurso } from "../modelos-lol-wordle/Recurso.model"
+import { RegionCollection } from "../modelos-lol-wordle/Region.model"
 import { TipoDecombateCollection } from "./TipoDeCombate.model"
 
 export type Champion = {
