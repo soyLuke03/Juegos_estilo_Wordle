@@ -215,7 +215,7 @@ export class LolWordleGameComponent implements OnInit {
       posicion: [Posicion.Jungla, Posicion.Superior],
       especie: Especie.Dios_Espiritu,
       recurso: Recurso.Mana,
-      tipoDeCombate: [TipoDeCombate.A_distancia],
+      tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Freljord],
       fechaDeLanzamiento: 2011
     },
@@ -1234,7 +1234,7 @@ export class LolWordleGameComponent implements OnInit {
       genero: Genero.Masculino,
       posicion: [Posicion.Inferior, Posicion.Medio, Posicion.Superior],
       especie: Especie.Humano_Nacido_con_magia,
-      recurso: Recurso.Mana,
+      recurso: Recurso.Sin_Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Jonia],
       fechaDeLanzamiento: 2013
@@ -1707,8 +1707,17 @@ export class LolWordleGameComponent implements OnInit {
   puntuacionTotal = 0;
   puntuacionBackUp = this.puntuacionTotal;
 
-  devMode:boolean = false;
+  /**
+   * DEV MODE
+   */
+  devMode:boolean = true;
 
+  showModalDeTrucos = false;
+
+  mostrarCampeonDEV = false;
+  /**
+   * 
+   */
   nuevoJuego() {
     this.campeonesPosiblesSegunBusqueda = [];
     this.intentos = 0;
@@ -1853,5 +1862,19 @@ export class LolWordleGameComponent implements OnInit {
   returnHome(): void{
     this.router.navigate(['/home'])
   }
+
+
+  /**
+   * DEV MODE
+   */
+
+  toggleModalDeTrucos() {
+    this.showModalDeTrucos = !this.showModalDeTrucos;
+  }
+
+  toggleDevMostrarCampeon() {
+    this.mostrarCampeonDEV = !this.mostrarCampeonDEV;
+  }
+
 
 }

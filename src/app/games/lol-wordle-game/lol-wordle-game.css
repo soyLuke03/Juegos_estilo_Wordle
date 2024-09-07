@@ -1,94 +1,93 @@
 .container-game {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container-guesses {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
-.showChampsInSearch{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
+.showChampsInSearch {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .campeon-posible {
-    margin: 5px;
-    width: 100px;
-    height: 40px;
-    border-radius: 10px;
+  margin: 5px;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
 }
 
 .campeon-posible:hover {
-    background-color: yellow;
-    zoom: 1.2;
+  background-color: yellow;
+  zoom: 1.2;
 }
 
 .nuevo-juego {
-    margin: 5px;
+  margin: 5px;
 }
 
-.container-intentos{
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    border-width: 5px;
-    border-style: outset;
-    margin: 5px;
-    background: black;
+.container-intentos {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  border-width: 5px;
+  border-style: outset;
+  margin: 5px;
+  background: black;
 }
 
 .intentos {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    width: 120px;
-    height: 100px;
-    border-style: ridge;
-    padding: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  height: 100px;
+  border-style: ridge;
+  padding: 5px;
 }
 
 .controles {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .guess-input {
-    border-style: outset;
-    margin: 5px;
-    border-radius: 10px;
-    min-width: 150px;
-    height: 30px;
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
-    font-variant: unicase;
-    font-size: medium;
+  border-style: outset;
+  margin: 5px;
+  border-radius: 10px;
+  min-width: 150px;
+  height: 30px;
+  padding: 5px;
+  font-weight: bold;
+  text-align: center;
+  font-variant: unicase;
+  font-size: medium;
 }
 
 .container-intentos-global {
-    overflow-y: auto;
-    max-height: 870px;
-    scrollbar-color: #000 #c6c6c6;
-    scroll-behavior: smooth;
-    padding: 10px;
-    background: #acacac;
-    border: 5px ridge;
-    border-radius: 10px;
-  }
-
+  overflow-y: auto;
+  max-height: 870px;
+  scrollbar-color: #000 #c6c6c6;
+  scroll-behavior: smooth;
+  padding: 10px;
+  background: #acacac;
+  border: 5px ridge;
+  border-radius: 10px;
+}
 
 /*
 *
@@ -97,20 +96,93 @@
 */
 
 .correcto {
-    background-color: green;
-    font-weight: bolder;
-    color: white;
+  background-color: green;
+  font-weight: bolder;
+  color: white;
 }
 
 .partial {
-    background-color: orange;
-    font-weight: bolder;
-    color: white;
+  background-color: orange;
+  font-weight: bolder;
+  color: white;
 }
 
 .incorrecto {
-    background-color: red;
-    font-weight: bolder;
-    color: white;
+  background-color: red;
+  font-weight: bolder;
+  color: white;
 }
 
+/*
+*
+* Estilos del modal de desarrollador
+*
+*/
+
+.panel-superior-derecha {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.panel-superior-derecha:hover {
+  opacity: 1;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f9f9f9;
+  padding: 20px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  background-color: #3e8e41;
+}
+
+.show-modal {
+  display: block;
+}
+
+.menu-de-desarrollador {
+  display: flex;
+  flex-direction: column;
+}
+
+.opcion-de-desarrollo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.opcion-de-desarrollo {
+  font-weight: bold;
+}
+
+.close-modal-button {
+    margin-top: 15px;
+}

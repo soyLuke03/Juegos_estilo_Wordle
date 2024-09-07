@@ -9,8 +9,10 @@
     ><span class="campeon-elegido">
       <span *ngIf="victoria">{{ campeonElegido.nombre }}</span>
     </span>
+
     <hr />
-    <p *ngIf="devMode">{{ campeonElegido.nombre }}</p>
+
+    <p *ngIf="mostrarCampeonDEV">{{ campeonElegido.nombre }}</p>
   </div>
   <div class="container-guesses">
     <input
@@ -173,5 +175,31 @@
 
   <div class="container-puntos">
     <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
+  </div>
+</div>
+
+<!-- Modal de Menú de Developer -->
+<div class="panel-superior-derecha" *ngIf="devMode">
+  <button (click)="toggleModalDeTrucos()">Panel de desarrollador</button>
+</div>
+
+<div class="modal" *ngIf="showModalDeTrucos">
+  <div class="modal-content menu-de-desarrollador">
+    <h1>Menú de desarrollador</h1>
+
+    <button
+      class="button-switch"
+      (click)="toggleDevMostrarCampeon()"
+      [ngClass]="{ 'button-switch-on': mostrarCampeonDEV, 'button-switch-off': !mostrarCampeonDEV }"
+    >
+      Mostrar campéon
+    </button>
+
+    <button
+      class="button-switch button-switch-alternative close-modal-button"
+      (click)="toggleModalDeTrucos()"
+    >
+      Close
+    </button>
   </div>
 </div>
