@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { GameComponent } from './game/game.component';
+import { GameComponent } from './lolworlde/game.component';
 
 export const routes: Routes = [
   { 

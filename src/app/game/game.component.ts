@@ -479,16 +479,6 @@ export class GameComponent implements OnInit {
       fechaDeLanzamiento: 2012
     },
     {
-      nombre: "Zac",
-      genero: Genero.Masculino,
-      posicion: [Posicion.Jungla, Posicion.Superior],
-      especie: Especie.Dios_Guerrero,
-      recurso: Recurso.Mana,
-      tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
-      region: [Region.Shurima],
-      fechaDeLanzamiento: 2009
-    },
-    {
       nombre: "Nami",
       genero: Genero.Femenino,
       posicion: [Posicion.Soporte],
@@ -1569,7 +1559,7 @@ export class GameComponent implements OnInit {
       fechaDeLanzamiento: 2009
     },
     {
-      nombre: "Apehlios",
+      nombre: "Aphelios",
       genero: Genero.Masculino,
       posicion: [Posicion.Inferior],
       especie: Especie.Humano_Espiritualista,
@@ -1702,6 +1692,9 @@ export class GameComponent implements OnInit {
   inputSearch: string = '';
   showChamps: boolean = false;
 
+  puntuacionMaxima = 5000;
+  puntuacionTotal = 0;
+  puntuacionBackUp = this.puntuacionTotal;
 
   nuevoJuego() {
     this.campeonesPosiblesSegunBusqueda = [];
@@ -1740,6 +1733,7 @@ export class GameComponent implements OnInit {
     if (campeonPosible === this.campeonElegido) {
       this.victoria = true
       this.campeonesPosiblesSegunBusqueda = [];
+      this.conseguirPuntos();
       alert("VICTORIA")
     }
   }
@@ -1778,11 +1772,11 @@ export class GameComponent implements OnInit {
   isFullMatch(campeon: Champion, campeonElegido: Champion, atributo: string): boolean {
     switch (atributo) {
       case "position":
-        return this.iguales(campeonElegido.posicion, campeon.posicion);
+        return this.comprobarArrays(campeonElegido.posicion, campeon.posicion);
       case "tipoDeCombate":
-        return this.iguales(campeonElegido.tipoDeCombate, campeon.tipoDeCombate);
+        return this.comprobarArrays(campeonElegido.tipoDeCombate, campeon.tipoDeCombate);
       case "region":
-        return this.iguales(campeonElegido.region, campeon.region);
+        return this.comprobarArrays(campeonElegido.region, campeon.region);
       default:
         return false;
     }
@@ -1815,7 +1809,7 @@ export class GameComponent implements OnInit {
     }
   }
 
-  iguales(array1: any[], array2: any[]): boolean {
+  comprobarArrays(array1: any[], array2: any[]): boolean {
     if (array1.length !== array2.length) {
       return false;
     }
@@ -1828,4 +1822,19 @@ export class GameComponent implements OnInit {
   
     return true;
   }
+
+  conseguirPuntos(): void {
+    let puntos = this.puntuacionMaxima;
+
+    for (let indiceDeIntentos = 0; indiceDeIntentos < this.intentos; indiceDeIntentos++) {
+      puntos -= 120
+    }
+    if (puntos < 0){
+      puntos = 0;
+    }
+
+    this.puntuacionTotal += puntos;
+    this.puntuacionBackUp = this.puntuacionTotal;
+  }
+
 }
