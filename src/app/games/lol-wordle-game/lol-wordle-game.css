@@ -57,6 +57,7 @@
     width: 120px;
     height: 100px;
     border-style: ridge;
+    padding: 5px;
 }
 
 .controles {

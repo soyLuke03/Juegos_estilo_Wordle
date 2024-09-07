@@ -38,7 +38,7 @@
       </button>
     </span>
     <hr />
-    <div class="container-intentos-global">
+    <div class="container-intentos-global" *ngIf="campeonesDichos.length > 0">
       <div class="container-intentos" *ngFor="let campeon of campeonesDichos">
         <span
           *ngIf="isSame(campeon, campeonElegido, 'nombre')"
