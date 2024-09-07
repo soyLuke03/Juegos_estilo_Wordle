@@ -91,10 +91,11 @@
 
 
 /*
-
+*
 * Estilos para los botones de intento
-
+*
 */
+
 .correcto {
     background-color: green;
     font-weight: bolder;
