@@ -77,13 +77,23 @@
     font-size: medium;
 }
 
+.container-intentos-global {
+    overflow-y: auto;
+    max-height: 870px;
+    scrollbar-color: #000 #c6c6c6;
+    scroll-behavior: smooth;
+    padding: 10px;
+    background: #acacac;
+    border: 5px ridge;
+    border-radius: 10px;
+  }
+
 
 /*
 
 * Estilos para los botones de intento
 
 */
-
 .correcto {
     background-color: green;
     font-weight: bolder;
