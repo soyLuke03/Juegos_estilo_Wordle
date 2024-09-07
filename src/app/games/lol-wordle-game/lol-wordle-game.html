@@ -9,11 +9,15 @@
             <span *ngIf="victoria">{{ campeonElegido.nombre }}</span>
         </span>
         <hr>
+        <p *ngIf="devMode">{{ campeonElegido.nombre }}</p>
     </div>
     <div class="container-guesses">
-        <input [disabled]="victoria" [(ngModel)]="inputSearch" (keyup)="showChampsInSearch()" autocomplete="off"
+        <input class="guess-input" [disabled]="victoria" [(ngModel)]="inputSearch" (keyup)="showChampsInSearch()" autocomplete="off"
             type="input" id="guess" name="guess">
-        <button class="nuevo-juego" (click)="nuevoJuego()">NUEVO JUEGO</button>
+        <div class="controles">
+            <button class="nuevo-juego" (click)="nuevoJuego()">NUEVO JUEGO</button>
+            <p>Intentos: {{ campeonesDichos.length }}</p>
+        </div>
 
         <span class="showChampsInSearch" *ngIf="showChamps">
             <button class="campeon-posible" *ngFor="let campeonPosible of campeonesPosiblesSegunBusqueda"

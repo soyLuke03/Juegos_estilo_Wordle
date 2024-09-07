@@ -1707,6 +1707,8 @@ export class LolWordleGameComponent implements OnInit {
   puntuacionTotal = 0;
   puntuacionBackUp = this.puntuacionTotal;
 
+  devMode:boolean = false;
+
   nuevoJuego() {
     this.campeonesPosiblesSegunBusqueda = [];
     this.intentos = 0;
@@ -1851,4 +1853,5 @@ export class LolWordleGameComponent implements OnInit {
   returnHome(): void{
     this.router.navigate(['/home'])
   }
+
 }
