@@ -31,11 +31,16 @@
 }
 
 .container-intentos{
+    padding: 5px;
     display: flex;
     justify-content: center;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
+    border-width: 5px;
+    border-style: outset;
+    margin: 5px;
+    background: black;
 }
 
 .intentos {
