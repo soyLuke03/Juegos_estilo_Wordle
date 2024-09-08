@@ -1,8 +1,6 @@
 .container-game {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-items: center;
 }
 
 .container-guesses {
@@ -32,7 +30,7 @@
 }
 
 .nuevo-juego {
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .container-intentos {
@@ -52,11 +50,37 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   width: 120px;
   height: 100px;
   border-style: ridge;
   padding: 5px;
+  color: white;
+}
+
+.ayudas {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  border-width: 5px;
+  border-style: outset;
+  margin: 5px;
+  background: black;
+}
+
+.ayuda {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  height: 100px;
+  border-style: ridge;
+  padding: 5px;
+  color: white;
 }
 
 .controles {
@@ -97,19 +121,16 @@
 .correcto {
   background-color: green;
   font-weight: bolder;
-  color: white;
 }
 
 .partial {
   background-color: orange;
   font-weight: bolder;
-  color: white;
 }
 
 .incorrecto {
   background-color: red;
   font-weight: bolder;
-  color: white;
 }
 
 /*
@@ -173,9 +194,9 @@
 }
 
 .opcion-de-desarrollo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .opcion-de-desarrollo {
@@ -183,5 +204,5 @@
 }
 
 .close-modal-button {
-    margin-top: 15px;
+  margin-top: 15px;
 }
