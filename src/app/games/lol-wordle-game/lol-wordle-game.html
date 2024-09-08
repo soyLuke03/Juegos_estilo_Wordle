@@ -1,15 +1,17 @@
 <div class="container-game">
   <div class="container-guess-champ">
     <h1><u>ADIVINA EL CAMPEÓN</u></h1>
+
     <hr />
+    
     <!-- CONTROLES DEL JUEGO -->
     <div class="controles">
       <button (click)="returnHome()">Volver a HOME</button>
       <button class="nuevo-juego" (click)="nuevoJuego()">NUEVO JUEGO</button>
     </div>
 
-    
     <hr />
+
     <span style="font-weight: bolder">El campeón es: </span>
     <span class="campeon-elegido">
       <span *ngIf="victoria">{{ campeonElegido.nombre }}</span>
