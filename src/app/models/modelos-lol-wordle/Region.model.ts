@@ -7,7 +7,7 @@ export enum Region {
     Targon = "Targon",
     Noxus = "Noxus",
     Islas_de_la_Sombra = "Islas de la Sombra",
-    Ixtal = "Jonia",
+    Ixtal = "Ixtal",
     El_Vacio = "El Vacío",
     Freljord = "Freljord",
     Runaterra = "Runaterra",

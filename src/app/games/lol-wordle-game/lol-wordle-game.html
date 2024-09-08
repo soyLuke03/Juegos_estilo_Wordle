@@ -72,32 +72,38 @@
           *ngIf="isFullMatch(campeon, campeonElegido, 'position')"
           class="intentos correcto"
         >
-          <span>{{ campeon.posicion }}</span>
+        <span *ngFor="let posicion of campeon.posicion">{{ posicion }}, </span>
         </span>
         <span
           *ngIf="!isFullMatch(campeon, campeonElegido, 'position') && isPartialMatch(campeon, campeonElegido, 'position')"
           class="intentos partial"
         >
-          <span>{{ campeon.posicion }}</span>
+        <span *ngFor="let posicion of campeon.posicion">{{ posicion }}, </span>
         </span>
         <span
           *ngIf="!isFullMatch(campeon, campeonElegido, 'position') && !isPartialMatch(campeon, campeonElegido, 'position')"
           class="intentos incorrecto"
         >
-          <span>{{ campeon.posicion }}</span>
+          <span *ngFor="let posicion of campeon.posicion">{{ posicion }}, </span>
         </span>
 
         <span
-          *ngIf="isSame(campeon, campeonElegido, 'especie')"
+          *ngIf="isFullMatch(campeon, campeonElegido, 'especie')"
           class="intentos correcto"
         >
-          <span>{{ campeon.especie }}</span>
+          <span *ngFor="let especie of campeon.especie">{{ especie }}, </span>
         </span>
         <span
-          *ngIf="!isSame(campeon, campeonElegido, 'especie')"
+          *ngIf="!isFullMatch(campeon, campeonElegido, 'especie') && isPartialMatch(campeon, campeonElegido, 'especie')"
+          class="intentos partial"
+        >
+          <span *ngFor="let especie of campeon.especie">{{ especie }}, </span>
+        </span>
+        <span
+          *ngIf="!isFullMatch(campeon, campeonElegido, 'especie') && !isPartialMatch(campeon, campeonElegido, 'especie')"
           class="intentos incorrecto"
         >
-          <span>{{ campeon.especie }}</span>
+          <span *ngFor="let especie of campeon.especie">{{ especie }}, </span>
         </span>
 
         <span
@@ -117,38 +123,38 @@
           *ngIf="isFullMatch(campeon, campeonElegido, 'tipoDeCombate')"
           class="intentos correcto"
         >
-          <span>{{ campeon.tipoDeCombate }}</span>
+          <span *ngFor="let tipoDeCombate of campeon.tipoDeCombate">{{ tipoDeCombate }}, </span>
         </span>
         <span
           *ngIf="!isFullMatch(campeon, campeonElegido, 'tipoDeCombate') && (isPartialMatch(campeon, campeonElegido, 'tipoDeCombate'))"
           class="intentos partial"
         >
-          <span>{{ campeon.tipoDeCombate }}</span>
+          <span *ngFor="let tipoDeCombate of campeon.tipoDeCombate">{{ tipoDeCombate }}, </span>
         </span>
         <span
           *ngIf="!isFullMatch(campeon, campeonElegido, 'tipoDeCombate') && !(isPartialMatch(campeon, campeonElegido, 'tipoDeCombate'))"
           class="intentos incorrecto"
         >
-          <span>{{ campeon.tipoDeCombate }}</span>
+          <span *ngFor="let tipoDeCombate of campeon.tipoDeCombate">{{ tipoDeCombate }}, </span>
         </span>
 
         <span
           *ngIf="isFullMatch(campeon, campeonElegido, 'region')"
           class="intentos correcto"
         >
-          <span>{{ campeon.region }}</span>
+          <span *ngFor="let region of campeon.region">{{ region }}, </span>
         </span>
         <span
           *ngIf="!isFullMatch(campeon, campeonElegido, 'region') && isPartialMatch(campeon, campeonElegido, 'region')"
           class="intentos partial"
         >
-          <span>{{ campeon.region }}</span>
+          <span *ngFor="let region of campeon.region">{{ region }}, </span>
         </span>
         <span
           *ngIf="!isFullMatch(campeon, campeonElegido, 'region') && !isPartialMatch(campeon, campeonElegido, 'region')"
           class="intentos incorrecto"
         >
-          <span>{{ campeon.region }}</span>
+          <span *ngFor="let region of campeon.region">{{ region }}, </span>
         </span>
 
         <span
