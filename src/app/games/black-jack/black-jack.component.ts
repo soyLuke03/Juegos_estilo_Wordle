@@ -7,16 +7,19 @@ import { Valor } from '../../models/modelos-blackjack/Valor.enum';
 import { Cartas, Carta } from '../../models/modelos-blackjack/Carta.model';
 import { Palo } from '../../models/modelos-blackjack/Palo.enum';
 import { ImagenCarta } from '../../models/modelos-blackjack/Imagen_Carta.enum';
+import { PuntosComponent } from '../../puntos/puntos.component';
 
 @Component({
   selector: 'app-black-jack',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, PuntosComponent],
   templateUrl: './black-jack.component.html',
   styleUrl: './black-jack.component.css',
 })
 export class BlackJackComponent {
   constructor(private router: Router) {}
+
+  puntuacionTotal: number = 0;
 
   totalPuntosJugadorManoActual: number = 0;
   totalPuntosIAManoActual: number = 0;
@@ -27,7 +30,6 @@ export class BlackJackComponent {
   cartasIA: Cartas = [];
 
   partidaAcabada: boolean = false;
-  valorTurno: string = 'Jugador';
 
   jugadorJuega() {
     const carta = this.obtenerCarta();
@@ -145,34 +147,103 @@ export class BlackJackComponent {
       this.totalPuntosJugadorManoActual > 21
     ) {
       alert('empate');
+      this.obtenerPuntos(0);
+
     } else if (this.totalPuntosJugadorManoActual > 21) {
       alert('jugador pierde');
+      this.obtenerPuntos(-1);
+      
     } else if (this.totalPuntosIAManoActual > 21) {
       alert('jugador gana');
+      this.obtenerPuntos(1);
+
     } else if (
       this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual &&
       this.totalPuntosIAManoActual < 21
     ) {
       alert('empate');
+      this.obtenerPuntos(0);
+
     } else if (
       this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual
     ) {
       alert('jugador pierde');
+      this.obtenerPuntos(-1);
+
     } else if (
       this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual
     ) {
       alert('jugador gana');
+      this.obtenerPuntos(1);
+
     } else if (
       this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual
     ) {
       if (this.cartasIA.length > this.cartasJugador.length) {
         alert('jugador gana');
+        this.obtenerPuntos(1);
+
       } else {
         alert('jugador pierde');
+        this.obtenerPuntos(-1);
       }
     }
 
     this.partidaAcabada = true;
+  }
+
+  obtenerPuntos(jugadorGana: number) {
+    switch (this.dificultad) {
+      case Dificultad.Facil:
+        if (jugadorGana == 1) {
+          this.puntuacionTotal += 100;
+        } else if (jugadorGana == 0) {
+          this.puntuacionTotal += 50;
+        } else {
+          this.puntuacionTotal -= 50;
+        }
+        break;
+
+      case Dificultad.Medio:
+        if (jugadorGana == 1) {
+          this.puntuacionTotal += 200;
+        } else if (jugadorGana == 0) {
+          this.puntuacionTotal += 70;
+        } else {
+          this.puntuacionTotal -= 80;
+        }
+        break;
+
+      case Dificultad.Dificil:
+        if (jugadorGana == 1) {
+          this.puntuacionTotal += 400;
+        } else if (jugadorGana == 0) {
+          this.puntuacionTotal += 100;
+        } else {
+          this.puntuacionTotal -= 150;
+        }
+        break;
+
+      case Dificultad.Insano:
+        if (jugadorGana == 1) {
+          this.puntuacionTotal += 5000;
+        } else if (jugadorGana == 0) {
+          this.puntuacionTotal += 250;
+        } else {
+          this.puntuacionTotal -= 500;
+        }
+        break;
+
+      case Dificultad.Imposible:
+        if (jugadorGana == 1) {
+          this.puntuacionTotal += 25000;
+        } else if (jugadorGana == 0) {
+          this.puntuacionTotal += 100;
+        } else {
+          this.puntuacionTotal -= 5000;
+        }
+        break;
+    }
   }
 
   reiniciarPartida() {
@@ -207,4 +278,42 @@ export class BlackJackComponent {
   returnHome(): void {
     this.router.navigate(['/home']);
   }
+
+  guardarPuntosEnCookies(): void {
+    const fechaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 días
+    const puntuacionCodificada = this.encodePuntuacionTotalValue(this.puntuacionTotal);
+    document.cookie = `blackjack-puntos=${puntuacionCodificada}; expires=${fechaExpiracion.toUTCString()}; path=/`;
+  }
+  
+  recogerPuntuacionCookies(): void {
+    const cookies = document.cookie.split(';');
+  
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+  
+      if (name.trim() === 'blackjack-puntos') {
+        const puntuacionDescodificada = this.decodePuntuacionTotalValue(value);
+        this.puntuacionTotal = puntuacionDescodificada;
+        break;
+      }
+    }
+  }
+
+  /**
+   * DEV MODE
+   */
+
+    encodePuntuacionTotalValue(value: number): string {
+      let encodedValue = btoa(String(value));
+      encodedValue = btoa(encodedValue);
+      encodedValue = btoa(encodedValue);
+      return encodedValue;
+    }
+    
+    decodePuntuacionTotalValue(value: string): number {
+      let decodedValue = atob(value);
+      decodedValue = atob(decodedValue);
+      decodedValue = atob(decodedValue);
+      return parseInt(decodedValue, 10);
+    }
 }

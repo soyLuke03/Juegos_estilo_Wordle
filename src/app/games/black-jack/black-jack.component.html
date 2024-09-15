@@ -4,7 +4,6 @@
 </div>
 
 <div class="game-container">
-    <h1 class="turnos">Turno: {{ valorTurno }}</h1>
     <div class="puntuaciones">
         <h2 class="jugador">Puntos: {{ totalPuntosJugadorManoActual }}</h2>
         <h2 class="maquina">Puntos IA ( {{ totalPuntosIAManoActual }} )</h2>
@@ -20,9 +19,11 @@
             <option>Insano</option>
             <option>Imposible</option>
         </select>
-        {{ dificultad }}
     </div>
     <div class="mano-jugador">
         <span *ngFor="let carta of cartasJugador" class="carta"><img [src]="carta.imagen"></span>
+    </div>
+    <div class="container-puntos">
+        <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
     </div>
 </div>

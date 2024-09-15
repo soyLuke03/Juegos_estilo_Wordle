@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LolWordleGameComponent } from '../games/lol-wordle-game/lol-wordle-game';
+import { LolWordleGameComponent } from '../games/lol-wordle-game/lol-wordle-game.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
