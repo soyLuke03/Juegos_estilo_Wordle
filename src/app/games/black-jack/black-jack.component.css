@@ -1,0 +1,10 @@
+.game-container {
+    min-width: 275px;
+}
+
+.puntuaciones {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between; 
+}
