@@ -1736,7 +1736,6 @@ export class LolWordleGameComponent implements OnInit {
 
   puntuacionMaxima = 5000;
   puntuacionTotal = 0;
-  puntuacionBackUp = this.puntuacionTotal;
 
   /**
    * DEV MODE
@@ -1934,7 +1933,6 @@ export class LolWordleGameComponent implements OnInit {
     }
 
     this.puntuacionTotal += puntos;
-    this.puntuacionBackUp = this.puntuacionTotal;
   }
 
   returnHome(): void {
