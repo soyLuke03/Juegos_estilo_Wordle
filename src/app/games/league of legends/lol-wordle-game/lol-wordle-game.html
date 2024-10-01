@@ -1,0 +1,284 @@
+  <div class="container-game">
+    <div class="container-guess-champ">
+      <h1><u>ADIVINA EL CAMPEÓN</u></h1>
+
+      <hr />
+
+      <!-- CONTROLES DEL JUEGO -->
+      <div class="controles">
+        <button (click)="returnHome()" name="returnHome">Volver a HOME</button>
+        <button class="nuevo-juego" (click)="nuevoJuego()" name="nuevoJuego">
+          NUEVO JUEGO
+        </button>
+      </div>
+
+      <hr />
+
+      <span style="font-weight: bolder">El campeón es: </span>
+      <span class="campeon-elegido">
+        <span *ngIf="victoria">{{ campeonElegido.nombre }}</span>
+      </span>
+      <p>Intentos: {{ campeonesDichos.length }}</p>
+
+      <!-- NOMBRE DEL CAMPEON PARA ADIVINAR -->
+      <p *ngIf="mostrarCampeonDEV">{{ campeonElegido.nombre }}</p>
+    </div>
+    <div class="container-guesses">
+      <!-- INPUT DE BUSQUEDA DE CAMPEONES -->
+      <input
+        class="guess-input"
+        [disabled]="victoria"
+        [(ngModel)]="inputSearch"
+        (keyup)="showChampsInSearch()"
+        autocomplete="off"
+        type="input"
+        id="guess"
+      />
+
+      <!-- LISTA DE BOTONES CON LOS CAMPEONES TRAS LA BUSQUEDA -->
+      <span class="showChampsInSearch" *ngIf="showChamps">
+        <button
+          class="campeon-posible"
+          *ngFor="let campeonPosible of campeonesPosiblesSegunBusqueda"
+          (click)="guessChamp(campeonPosible)"
+          name="campeonPosible"
+        >
+          <!-- CAMPEONES DISPONIBLES -->
+          {{ campeonPosible.nombre }}
+        </button>
+      </span>
+
+      <hr />
+
+      <div class="container-intentos-global" *ngIf="campeonesDichos.length > 0">
+        <!-- BARRA CON LOS NOMBRES DE CADA CUADRO -->
+        <div class="container-intentos">
+          <span class="intentos">
+            <span>NOMBRE</span>
+          </span>
+          <span class="intentos">
+            <span>GENERO</span>
+          </span>
+          <span class="intentos">
+            <span>POSICION</span>
+          </span>
+          <span class="intentos">
+            <span>ESPECIE</span>
+          </span>
+          <span class="intentos">
+            <span>RECURSO</span>
+          </span>
+          <span class="intentos">
+            <span>TIPO DE COMBATE</span>
+          </span>
+          <span class="intentos">
+            <span>REGION</span>
+          </span>
+          <span class="intentos">
+            <span>FECHA</span>
+          </span>
+        </div>
+
+        <!-- BARRA CON LOS INTENTOS REALIZADOS -->
+        <div class="container-intentos" *ngFor="let campeon of campeonesDichos">
+          <span
+            *ngIf="isSame(campeon, campeonElegido, 'nombre')"
+            class="intentos correcto"
+          >
+            <span>{{ campeon.nombre }}</span>
+          </span>
+          <span
+            *ngIf="!isSame(campeon, campeonElegido, 'nombre')"
+            class="intentos incorrecto"
+          >
+            <span>{{ campeon.nombre }}</span>
+          </span>
+
+          <span
+            *ngIf="isSame(campeon, campeonElegido, 'genero')"
+            class="intentos correcto"
+          >
+            <span>{{ campeon.genero }}</span>
+          </span>
+          <span
+            *ngIf="!isSame(campeon, campeonElegido, 'genero')"
+            class="intentos incorrecto"
+          >
+            <span>{{ campeon.genero }}</span>
+          </span>
+
+          <span
+            *ngIf="isFullMatch(campeon, campeonElegido, 'position')"
+            class="intentos correcto"
+          >
+            <span *ngFor="let posicion of campeon.posicion"
+              >{{ posicion }},
+            </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'position') && isPartialMatch(campeon, campeonElegido, 'position')"
+            class="intentos partial"
+          >
+            <span *ngFor="let posicion of campeon.posicion"
+              >{{ posicion }},
+            </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'position') && !isPartialMatch(campeon, campeonElegido, 'position')"
+            class="intentos incorrecto"
+          >
+            <span *ngFor="let posicion of campeon.posicion"
+              >{{ posicion }},
+            </span>
+          </span>
+
+          <span
+            *ngIf="isFullMatch(campeon, campeonElegido, 'especie')"
+            class="intentos correcto"
+          >
+            <span *ngFor="let especie of campeon.especie">{{ especie }}, </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'especie') && isPartialMatch(campeon, campeonElegido, 'especie')"
+            class="intentos partial"
+          >
+            <span *ngFor="let especie of campeon.especie">{{ especie }}, </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'especie') && !isPartialMatch(campeon, campeonElegido, 'especie')"
+            class="intentos incorrecto"
+          >
+            <span *ngFor="let especie of campeon.especie">{{ especie }}, </span>
+          </span>
+
+          <span
+            *ngIf="isSame(campeon, campeonElegido, 'recurso')"
+            class="intentos correcto"
+          >
+            <span>{{ campeon.recurso }}</span>
+          </span>
+          <span
+            *ngIf="!isSame(campeon, campeonElegido, 'recurso')"
+            class="intentos incorrecto"
+          >
+            <span>{{ campeon.recurso }}</span>
+          </span>
+
+          <span
+            *ngIf="isFullMatch(campeon, campeonElegido, 'tipoDeCombate')"
+            class="intentos correcto"
+          >
+            <span *ngFor="let tipoDeCombate of campeon.tipoDeCombate"
+              >{{ tipoDeCombate }},
+            </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'tipoDeCombate') && (isPartialMatch(campeon, campeonElegido, 'tipoDeCombate'))"
+            class="intentos partial"
+          >
+            <span *ngFor="let tipoDeCombate of campeon.tipoDeCombate"
+              >{{ tipoDeCombate }},
+            </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'tipoDeCombate') && !(isPartialMatch(campeon, campeonElegido, 'tipoDeCombate'))"
+            class="intentos incorrecto"
+          >
+            <span *ngFor="let tipoDeCombate of campeon.tipoDeCombate"
+              >{{ tipoDeCombate }},
+            </span>
+          </span>
+
+          <span
+            *ngIf="isFullMatch(campeon, campeonElegido, 'region')"
+            class="intentos correcto"
+          >
+            <span *ngFor="let region of campeon.region">{{ region }}, </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'region') && isPartialMatch(campeon, campeonElegido, 'region')"
+            class="intentos partial"
+          >
+            <span *ngFor="let region of campeon.region">{{ region }}, </span>
+          </span>
+          <span
+            *ngIf="!isFullMatch(campeon, campeonElegido, 'region') && !isPartialMatch(campeon, campeonElegido, 'region')"
+            class="intentos incorrecto"
+          >
+            <span *ngFor="let region of campeon.region">{{ region }}, </span>
+          </span>
+
+          <span
+            *ngIf="isGreaterOrLesserDate(campeon, campeonElegido) == 0"
+            class="intentos correcto"
+          >
+            <span>{{ campeon.fechaDeLanzamiento }}</span>
+          </span>
+          <span
+            *ngIf="isGreaterOrLesserDate(campeon, campeonElegido) == 1"
+            class="intentos incorrecto"
+          >
+            <span>{{ campeon.fechaDeLanzamiento }} ↓</span>
+          </span>
+          <span
+            *ngIf="isGreaterOrLesserDate(campeon, campeonElegido) == -1"
+            class="intentos incorrecto"
+          >
+            <span>{{ campeon.fechaDeLanzamiento }} ↑</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ayudas">
+      <span class="ayuda correcto">
+        <span>RESPUESTA CORRECTA</span>
+      </span>
+      <span class="ayuda partial">
+        <span>RESPUESTA PARCIAL</span>
+      </span>
+      <span class="ayuda incorrecto">
+        <span>RESPUESTA INCORRECTA</span>
+      </span>
+      <span class="ayuda incorrecto">
+        <span>↑ - La fecha es superior</span>
+      </span>
+      <span class="ayuda incorrecto">
+        <span>↓ - La fecha es inferior</span>
+      </span>
+    </div>
+
+    <div class="container-puntos">
+      <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
+    </div>
+  </div>
+
+  <!-- Modal de Menú de Developer -->
+  <div class="panel-superior-derecha" *ngIf="devMode">
+    <button (click)="toggleModalDeTrucos()" name="togglePanelTrucos">
+      Panel de desarrollador
+    </button>
+  </div>
+
+  <div class="modal" *ngIf="showModalDeTrucos">
+    <div class="modal-content menu-de-desarrollador">
+      <h1>Menú de desarrollador</h1>
+
+      <button
+        class="button-switch"
+        (click)="toggleDevMostrarCampeon()"
+        [ngClass]="{ 'button-switch-on': mostrarCampeonDEV, 'button-switch-off': !mostrarCampeonDEV }"
+        name="toggleMostrarCampeon"
+      >
+        Mostrar campéon
+      </button>
+
+      <button
+        class="button-switch button-switch-alternative close-modal-button"
+        (click)="toggleModalDeTrucos()"
+        name="toggleCerrarPanelTrucos"
+      >
+        Close
+      </button>
+    </div>
+  </div>

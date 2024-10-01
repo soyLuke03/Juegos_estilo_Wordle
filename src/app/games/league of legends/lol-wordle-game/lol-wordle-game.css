@@ -83,11 +83,6 @@
   color: white;
 }
 
-.controles {
-  display: flex;
-  flex-direction: row;
-}
-
 .guess-input {
   border-style: outset;
   margin: 5px;

@@ -32,3 +32,8 @@ button:hover {
 .button-switch-alternative {
   color: #565656;
 }
+
+.controles {
+  display: flex;
+  flex-direction: row;
+}

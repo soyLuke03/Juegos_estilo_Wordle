@@ -2,23 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import {
   Champion,
   ChampionCollection,
-} from '../../models/modelos-lol-wordle/Champion.model';
-import { Especie } from '../../models/modelos-lol-wordle/Especie.model';
-import { Genero } from '../../models/modelos-lol-wordle/Genero.model';
-import { Posicion } from '../../models/modelos-lol-wordle/Posicion.model';
-import { Recurso } from '../../models/modelos-lol-wordle/Recurso.model';
-import { TipoDeCombate } from '../../models/modelos-lol-wordle/TipoDeCombate.model';
-import { Region } from '../../models/modelos-lol-wordle/Region.model';
+} from '../../../models/modelos-lol-wordle/Champion.model';
+import { Especie } from '../../../models/modelos-lol-wordle/Especie.model';
+import { Genero } from '../../../models/modelos-lol-wordle/Genero.model';
+import { Posicion } from '../../../models/modelos-lol-wordle/Posicion.model';
+import { Recurso } from '../../../models/modelos-lol-wordle/Recurso.model';
+import { TipoDeCombate } from '../../../models/modelos-lol-wordle/TipoDeCombate.model';
+import { Region } from '../../../models/modelos-lol-wordle/Region.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { PuntosComponent } from '../../puntos/puntos.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PuntosComponent } from '../../../puntos/puntos.component';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, FormsModule, PuntosComponent, RouterLink],
+  imports: [CommonModule,ReactiveFormsModule, FormsModule, PuntosComponent, RouterLink],
   templateUrl: './lol-wordle-game.html',
   styleUrl: './lol-wordle-game.css',
 })
