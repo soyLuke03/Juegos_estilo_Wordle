@@ -13,7 +13,6 @@ export class CasinoService {
 
   getPuntuacionTotal(): number {
     this.recogerPuntuacionCookies();
-    console.log(this.puntuacionTotal)
     return this.puntuacionTotal;
   }
 
@@ -21,11 +20,11 @@ export class CasinoService {
     this.puntuacionTotal = puntuacion;
   }
 
-  addPuntos(puntos: number): void {
-    if(puntos>0){
+  addPuntos(puntos: number, sumar: boolean): void {
+    if(sumar){
       this.puntuacionTotal += puntos;
     }
-    else if (puntos<0){
+    else {
       this.puntuacionTotal -= puntos;
     }
     this.guardarPuntosEnCookies();

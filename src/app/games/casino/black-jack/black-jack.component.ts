@@ -80,12 +80,10 @@ export class BlackJackComponent implements OnInit{
       case Dificultad.Dificil:
         do {
           if (this.totalPuntosIAManoActual < 13) {
-            if (Math.random() < 0.9) {
+              if (Math.random() < 0.9) {
               carta = this.obtenerCarta();
               this.cartasIA.unshift(carta);
               this.obtenerPuntosIA(carta);
-            } else {
-              break;
             }
           } else {
             if (Math.random() < 0.5) {
@@ -110,12 +108,12 @@ export class BlackJackComponent implements OnInit{
         ) {
           carta = this.obtenerCarta();
           const puntosCarta = this.obtenerValor(carta.valor);
-          if (this.totalPuntosIAManoActual + puntosCarta > 21) {
-            // If adding the new card would make the IA go over 21, don't add it
-            continue;
+          if (this.totalPuntosIAManoActual + puntosCarta <= 21) {
+            this.cartasIA.unshift(carta);
+            this.obtenerPuntosIA(carta);
+          } else {
+            break;
           }
-          this.cartasIA.unshift(carta);
-          this.obtenerPuntosIA(carta);
         }
         break;
 
@@ -157,44 +155,45 @@ export class BlackJackComponent implements OnInit{
   }
 
   comprobarPartida() {
-    if (
-      this.totalPuntosIAManoActual > 21 &&
-      this.totalPuntosJugadorManoActual > 21
-    ) {
-      alert('empate');
-      this.obtenerPuntos(0);
-    } else if (this.totalPuntosJugadorManoActual > 21) {
-      alert('jugador pierde');
-      this.obtenerPuntos(-1);
-    } else if (this.totalPuntosIAManoActual > 21) {
-      alert('jugador gana');
-      this.obtenerPuntos(1);
-    } else if (
-      this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual &&
-      this.totalPuntosIAManoActual < 21
-    ) {
-      alert('empate');
-      this.obtenerPuntos(0);
-    } else if (
-      this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual
-    ) {
-      alert('jugador pierde');
-      this.obtenerPuntos(-1);
-    } else if (
-      this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual
-    ) {
-      alert('jugador gana');
-      this.obtenerPuntos(1);
-    } else if (
-      this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual
-    ) {
+    if (this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual && this.totalPuntosJugadorManoActual < 21 && this.totalPuntosIAManoActual < 21) {
       if (this.cartasIA.length > this.cartasJugador.length) {
-        alert('jugador gana');
         this.obtenerPuntos(1);
-      } else {
-        alert('jugador pierde');
+        alert('jugador gana');
+      } else if (this.cartasIA.length < this.cartasJugador.length) {
         this.obtenerPuntos(-1);
+        alert('jugador pierde');
+      } else {
+        this.obtenerPuntos(0);
+        alert('empate');
       }
+    }
+    else if (this.totalPuntosIAManoActual > 21 && this.totalPuntosJugadorManoActual > 21) {
+      if(this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual) {
+        this.obtenerPuntos(1);
+        alert('jugador gana');
+      }
+      else if (this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual) {
+        this.obtenerPuntos(-1);
+        alert('jugador pierde');
+      }
+    }
+    else if (this.totalPuntosIAManoActual <= 21 && this.totalPuntosJugadorManoActual <= 21) {
+      if (this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual) {
+        this.obtenerPuntos(-1);
+        alert('jugador pierde');
+      }
+      else if (this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual) {
+        this.obtenerPuntos(1);
+        alert('jugador gana');
+      }
+    }
+    else if (this.totalPuntosIAManoActual <= 21 && this.totalPuntosJugadorManoActual > 21) {
+      this.obtenerPuntos(-1);
+      alert('jugador pierde');
+    }
+    else if (this.totalPuntosIAManoActual > 21 && this.totalPuntosJugadorManoActual <= 21) {
+      this.obtenerPuntos(1);
+      alert('jugador gana');
     }
 
     this.partidaAcabada = true;
@@ -204,51 +203,51 @@ export class BlackJackComponent implements OnInit{
     switch (this.dificultad) {
       case Dificultad.Facil:
         if (jugadorGana == 1) {
-          this.casino.addPuntos(100);
+          this.casino.addPuntos(100, true);
         } else if (jugadorGana == 0) {
-          this.casino.addPuntos(50);
+          this.casino.addPuntos(50, true);
         } else {
-          this.casino.addPuntos(-50);
+          this.casino.addPuntos(50, false);
         }
         break;
 
       case Dificultad.Medio:
         if (jugadorGana == 1) {
-          this.casino.addPuntos(200);
+          this.casino.addPuntos(200, true);
         } else if (jugadorGana == 0) {
-          this.casino.addPuntos(70);
+          this.casino.addPuntos(70, true);
         } else {
-          this.casino.addPuntos(-80);
+          this.casino.addPuntos(80, false);
         }
         break;
 
       case Dificultad.Dificil:
         if (jugadorGana == 1) {
-          this.casino.addPuntos(400);
+          this.casino.addPuntos(400, true);
         } else if (jugadorGana == 0) {
-          this.casino.addPuntos(100);
+          this.casino.addPuntos(100, true);
         } else {
-          this.casino.addPuntos(-150);
+          this.casino.addPuntos(150, false);
         }
         break;
 
       case Dificultad.Insano:
         if (jugadorGana == 1) {
-          this.casino.addPuntos(5000);
+          this.casino.addPuntos(5000, true);
         } else if (jugadorGana == 0) {
-          this.casino.addPuntos(250);
+          this.casino.addPuntos(250, true);
         } else {
-          this.casino.addPuntos(-500);
+          this.casino.addPuntos(500, false);
         }
         break;
 
       case Dificultad.Imposible:
         if (jugadorGana == 1) {
-          this.casino.addPuntos(25000);
+          this.casino.addPuntos(25000, true);
         } else if (jugadorGana == 0) {
-          this.casino.addPuntos(100);
+          this.casino.addPuntos(100, true);
         } else {
-          this.casino.addPuntos(-5000);
+          this.casino.addPuntos(5000, false);
         }
         break;
     }
