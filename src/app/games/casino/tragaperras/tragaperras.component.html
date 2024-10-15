@@ -1,9 +1,17 @@
 <div class="controles">
-    <button (click)="returnHome()">Volver a HOME</button>
-  </div>
+  <button (click)="girarTragaperras()">Girar</button>
+  <button (click)="returnHome()">Volver a HOME</button>
+</div>
 
 <div class="game-container">
-    <div class="container-puntos">
-        <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
+  <div class="container-puntos">
+    <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
+  </div>
+  <div class="tragaperras-grid">
+    <div *ngFor="let row of tragaperras; let j = index" class="column">
+      <div *ngFor="let cell of row; let i = index" class="cell">
+        <span class="letter" [class.spin]="spinState === 'active'">{{ cell | uppercase }}</span>
       </div>
+    </div>
+  </div>
 </div>

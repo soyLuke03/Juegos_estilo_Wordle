@@ -6,6 +6,19 @@ import { Injectable } from '@angular/core';
 export class CasinoService {
 
   private puntuacionTotal: number = 0;
+  dictionary: { [key: string]: string } = {
+    'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5', 'f': '6', 'g': '7', 'h': '8', 'i': '9',
+    'j': 'A', 'k': 'B', 'l': 'C', 'm': 'D', 'n': 'E', 'o': 'F', 'p': 'G', 'q': 'H', 'r': 'I',
+    's': 'J', 't': 'K', 'u': 'L', 'v': 'M', 'w': 'N', 'x': 'O', 'y': 'P', 'z': 'Q',
+    'A': 'R', 'B': 'S', 'C': 'T', 'D': 'U', 'E': 'V', 'F': 'W', 'G': 'X', 'H': 'Y', 'I': 'Z',
+    '0': 'a', '1': 'b', '2': 'c', '3': 'd', '4': 'e', '5': 'f', '6': 'g', '7': 'h', '8': 'i',
+    '9': 'j',
+    '!': 'k', '@': 'l', '#': 'm', '$': 'n', '%': 'o', '^': 'p', '&': 'q', '*': 'r',
+    '(': 's', ')': 't', '-': 'u', '_': 'v', '=': 'w', '+': 'x', '[': 'y', ']': 'z',
+    '{': 'A', '}': 'B', '|': 'C', '\\': 'D', ':': 'E', ';': 'F', "'": 'G', '"': 'H',
+    '<': 'I', '>': 'J', ',': 'K', '.': 'L', '?': 'M', '/': 'N', '~': 'O', '`': 'P',
+    ' ': 'Q', '\t': 'R', '\n': 'S', '\r': 'T', '\b': 'U', '\f': 'V', '\v': 'W',
+  };
 
   constructor() { 
     
@@ -58,6 +71,7 @@ export class CasinoService {
 
   encodePuntuacionTotalValue(value: number): string {
     let encodedValue = btoa(String(value));
+    encodedValue = this.privateEnconder(encodedValue)
     encodedValue = btoa(encodedValue);
     encodedValue = btoa(encodedValue);
     return encodedValue;
@@ -66,7 +80,20 @@ export class CasinoService {
   decodePuntuacionTotalValue(value: string): number {
     let decodedValue = atob(value);
     decodedValue = atob(decodedValue);
+    decodedValue = this.privateDecoder(decodedValue);
     decodedValue = atob(decodedValue);
     return parseInt(decodedValue, 10);
+  }
+
+  privateEnconder(encripted: string): string {
+    return encripted.split('').map(c => this.dictionary[c] || c).join('');
+  }
+  
+  privateDecoder(decripted: string): string {
+    const inverseDictionary: { [key: string]: string } = {};
+    Object.keys(this.dictionary).forEach(key => {
+      inverseDictionary[this.dictionary[key]] = key;
+    });
+    return decripted.split('').map(c => inverseDictionary[c] || c).join('');
   }
 }

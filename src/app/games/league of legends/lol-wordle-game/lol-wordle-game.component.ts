@@ -1740,7 +1740,7 @@ export class LolWordleGameComponent implements OnInit {
   /**
    * DEV MODE
    */
-  devMode: boolean = false;
+  devMode: boolean = true;
 
   showModalDeTrucos = false;
 

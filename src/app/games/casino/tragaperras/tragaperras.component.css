@@ -1,0 +1,33 @@
+.tragaperras-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+  }
+  
+  .cell {
+    background-color: #ccc;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .letter {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .letter.spin {
+    animation: fadeInDown 1s forwards;
+  }
+  
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
