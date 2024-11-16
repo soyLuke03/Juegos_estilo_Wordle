@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { PuntosComponent } from '../../../puntos/puntos.component';
+import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
 import { CasinoService } from '../../../services/casino.service';
 
 @Component({

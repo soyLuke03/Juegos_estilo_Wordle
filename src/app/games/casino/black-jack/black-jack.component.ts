@@ -7,7 +7,7 @@ import { Dificultad } from '../../../models/modelos-blackjack/Dificultad.model';
 import { ImagenCarta } from '../../../models/modelos-blackjack/Imagen_Carta.enum';
 import { Palo } from '../../../models/modelos-blackjack/Palo.enum';
 import { Valor } from '../../../models/modelos-blackjack/Valor.enum';
-import { PuntosComponent } from '../../../puntos/puntos.component';
+import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
 import { CasinoService } from '../../../services/casino.service';
 
 @Component({

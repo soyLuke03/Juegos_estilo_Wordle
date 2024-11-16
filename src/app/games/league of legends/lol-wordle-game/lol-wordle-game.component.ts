@@ -11,7 +11,7 @@ import { TipoDeCombate } from '../../../models/modelos-lol-wordle/TipoDeCombate.
 import { Region } from '../../../models/modelos-lol-wordle/Region.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PuntosComponent } from '../../../puntos/puntos.component';
+import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 
