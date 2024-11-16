@@ -23,34 +23,61 @@
   padding: 10px;
 }
 
-.modal-camaras{
+.modal-camaras {
   width: 100%;
   height: 100%;
 }
 
+.camera-click-area,
 .click-area,
+.bateria,
 .reloj {
   position: absolute;
 }
 
-.click-area {
+.click-area,
+.camera-click-area {
   cursor: pointer;
 }
 
+.camera-click-area {
+  background: rgba(95, 95, 95, 0.449);
+}
+
 .opened {
-  background: rgba(51, 255, 0, 0.615); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+  background: rgba(
+    51,
+    255,
+    0,
+    0.615
+  ); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
 }
 
 .closed {
-  background: rgba(255, 0, 0, 0.615); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+  background: rgba(
+    255,
+    0,
+    0,
+    0.615
+  ); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
 }
 
-.lights-on{
-  background: rgba(206, 206, 206, 0.884); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+.lights-on {
+  background: rgba(
+    206,
+    206,
+    206,
+    0.884
+  ); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
 }
 
-.lights-off{
-  background: rgba(206, 206, 206, 0.214); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+.lights-off {
+  background: rgba(
+    206,
+    206,
+    206,
+    0.214
+  ); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
 }
 
 .reloj {
@@ -62,7 +89,16 @@
   font-family: fantasy;
 }
 
-.modal-camaras{
+.bateria {
+  display: flex;
+  color: yellow;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  font-family: fantasy;
+}
+
+.modal-camaras {
   height: auto;
   width: 100%;
 }

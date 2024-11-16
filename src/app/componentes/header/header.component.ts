@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GLOBAL_CONSTANTES } from '../../five-nights-constants';
+import { GLOBAL_CONSTANTES } from '../../GLOBAL_CONST';
 
 @Component({
   selector: 'app-header',

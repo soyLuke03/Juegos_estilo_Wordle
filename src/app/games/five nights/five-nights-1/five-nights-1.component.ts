@@ -26,6 +26,7 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   camaras = { x: 1102, y: 660, width: 350, height: 150 };
   camarasOpened = { x: 1102, y: 660, width: 350, height: 150 };
   reloj = { x: 1642, y: 100, width: 142, height: 40 };
+  bateria = { x: 1387, y: 538, width: 35, height: 35 };
 
   timeString: string = '12:00';
   timeNumber: number = 0;
@@ -34,10 +35,29 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   cameraOpen: boolean = false;
   cameraNumber: number = 0;
 
+  totalBattery: number = 100;
+  batteryLeft: number = 100;
+  bateryUsageNumber: number = 1;
+  batteryOut: boolean = false;
+
+  TIME_MILISECONDS:number = 1000; 
+  BATTERY_MILISECONDS:number = 5000; // 20% restante a 1000ms 
+  LIGHT_CONSUME_TIME:number = 0.1
+  DOOR_CLOSE_CONSUME_TIME:number = 0.25
+
   doors = {
-    rightDoor: false,
-    leftDoor: false,
-    centralDoor: false
+    rightDoor: {
+      opened: false,
+      light: false
+    },
+    leftDoor: {
+      opened: false,
+      light: false
+    },
+    centralDoor: {
+      opened: false,
+      light: false
+    }
   }
 
   private oficinaElement!: HTMLElement;
@@ -77,7 +97,10 @@ export class FiveNights1Component implements OnInit, OnDestroy {
     this.timeString = '12:00';
     this.timeNumber = 0;
     this.cameraNumber = 0;
+    this.batteryLeft = this.totalBattery;
+    this.batteryOut = false;
     this._startTimeCounting();
+    this._startBatteryLoss();
     this._startMouseMovement();
   }
 
@@ -93,11 +116,11 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   useButtonDoor(doorId: number) {
     switch (doorId) {
       case 1:
-        this.doors.leftDoor = !this.doors.leftDoor
+        this.doors.leftDoor.opened = !this.doors.leftDoor.opened
 
         break;
       case 2:
-        this.doors.rightDoor = !this.doors.rightDoor
+        this.doors.rightDoor.opened = !this.doors.rightDoor.opened
         
         break;
     }
@@ -106,15 +129,15 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   lightButtonDoor(doorId: number) {
     switch (doorId) {
       case 1:
-        this.doors.leftDoor = !this.doors.leftDoor
+        this.doors.leftDoor.light = !this.doors.leftDoor.light
 
         break;
       case 2:
-        this.doors.rightDoor = !this.doors.rightDoor
+        this.doors.rightDoor.light = !this.doors.rightDoor.light
         
         break;
       case 3:
-        this.doors.centralDoor = !this.doors.centralDoor
+        this.doors.centralDoor.light = !this.doors.centralDoor.light
         
         break;
     }
@@ -123,7 +146,10 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   private _startTimeCounting() {
     setInterval(() => {
       this._timeIntervalToTimeString();
-    }, 1000);
+      if(this.timeString == '06:00') {
+        this.finishGame();
+      }
+    }, this.TIME_MILISECONDS);
   }
 
   private _startMouseMovement() {
@@ -203,5 +229,43 @@ export class FiveNights1Component implements OnInit, OnDestroy {
     if (event.key == 'W' || event.key == 'w') {
       this.openCamera();
     }
+  }
+
+  private _startBatteryLoss() {
+    const intervalId = setInterval(() => {
+      this.batteryLeft--;
+
+      let totalConsumption = 0;
+
+      // Sumar el consumo por puertas abiertas
+      if (this.doors.leftDoor.opened) {
+        totalConsumption += this.DOOR_CLOSE_CONSUME_TIME;
+      }
+      
+      if (this.doors.rightDoor.opened) {
+        totalConsumption += this.DOOR_CLOSE_CONSUME_TIME;
+      }
+      
+      // Sumar el consumo por luces encendidas
+      if (this.doors.leftDoor.light) {
+        totalConsumption += this.LIGHT_CONSUME_TIME;
+      }
+      
+      if (this.doors.rightDoor.light) {
+        totalConsumption += this.LIGHT_CONSUME_TIME;
+      }
+      
+      if (this.doors.centralDoor.light) {
+        totalConsumption += this.LIGHT_CONSUME_TIME;
+      }
+      
+      this.batteryLeft -= totalConsumption;
+      
+  
+      if (this.batteryLeft <= 0) {
+        this.batteryOut = true;
+        clearInterval(intervalId);
+      }
+    }, this.BATTERY_MILISECONDS);
   }
 }

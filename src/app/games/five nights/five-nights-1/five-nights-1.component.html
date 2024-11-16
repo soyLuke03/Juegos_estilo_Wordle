@@ -13,7 +13,17 @@
 
     <!-- Zona clicable -->
     <div
+      *ngIf="doors.leftDoor.opened"
       class="click-area opened"
+      (click)="useButtonDoor(1)"
+      [style.left.px]="puerta1.x"
+      [style.top.px]="puerta1.y"
+      [style.width.px]="puerta1.width"
+      [style.height.px]="puerta1.height"
+    ></div>
+    <div
+      *ngIf="!doors.leftDoor.opened"
+      class="click-area closed"
       (click)="useButtonDoor(1)"
       [style.left.px]="puerta1.x"
       [style.top.px]="puerta1.y"
@@ -22,6 +32,16 @@
     ></div>
 
     <div
+      *ngIf="doors.leftDoor.light"
+      class="click-area lights-on"
+      (click)="lightButtonDoor(1)"
+      [style.left.px]="puerta1Luz.x"
+      [style.top.px]="puerta1Luz.y"
+      [style.width.px]="puerta1Luz.width"
+      [style.height.px]="puerta1Luz.height"
+    ></div>
+    <div
+      *ngIf="!doors.leftDoor.light"
       class="click-area lights-off"
       (click)="lightButtonDoor(1)"
       [style.left.px]="puerta1Luz.x"
@@ -31,6 +51,16 @@
     ></div>
 
     <div
+      *ngIf="doors.rightDoor.opened"
+      class="click-area opened"
+      (click)="useButtonDoor(2)"
+      [style.left.px]="puerta2.x"
+      [style.top.px]="puerta2.y"
+      [style.width.px]="puerta2.width"
+      [style.height.px]="puerta2.height"
+    ></div>
+    <div
+      *ngIf="!doors.rightDoor.opened"
       class="click-area closed"
       (click)="useButtonDoor(2)"
       [style.left.px]="puerta2.x"
@@ -40,7 +70,17 @@
     ></div>
 
     <div
+      *ngIf="doors.rightDoor.light"
       class="click-area lights-on"
+      (click)="lightButtonDoor(2)"
+      [style.left.px]="puerta2Luz.x"
+      [style.top.px]="puerta2Luz.y"
+      [style.width.px]="puerta2Luz.width"
+      [style.height.px]="puerta2Luz.height"
+    ></div>
+    <div
+      *ngIf="!doors.rightDoor.light"
+      class="click-area lights-off"
       (click)="lightButtonDoor(2)"
       [style.left.px]="puerta2Luz.x"
       [style.top.px]="puerta2Luz.y"
@@ -49,6 +89,16 @@
     ></div>
 
     <div
+      *ngIf="doors.centralDoor.light"
+      class="click-area lights-on"
+      (click)="lightButtonDoor(3)"
+      [style.left.px]="pasilloLuz.x"
+      [style.top.px]="pasilloLuz.y"
+      [style.width.px]="pasilloLuz.width"
+      [style.height.px]="pasilloLuz.height"
+    ></div>
+    <div
+      *ngIf="!doors.centralDoor.light"
       class="click-area lights-off"
       (click)="lightButtonDoor(3)"
       [style.left.px]="pasilloLuz.x"
@@ -58,13 +108,23 @@
     ></div>
 
     <div
-      class="click-area"
+      class="camera-click-area"
       (click)="openCamera()"
       [style.left.px]="camaras.x"
       [style.top.px]="camaras.y"
       [style.width.px]="camaras.width"
       [style.height.px]="camaras.height"
     ></div>
+
+    <div
+      class="bateria"
+      [style.left.px]="bateria.x"
+      [style.top.px]="bateria.y"
+      [style.width.px]="bateria.width"
+      [style.height.px]="bateria.height"
+    >
+      {{ batteryLeft.toFixed(2) }}
+    </div>
 
     <div
       class="reloj"
@@ -95,7 +155,7 @@
     <div *ngIf="cameraNumber == 1"></div>
 
     <div
-      class="click-area"
+      class="camera-click-area"
       (click)="openCamera()"
       [style.left.px]="camarasOpened.x"
       [style.top.px]="camarasOpened.y"
