@@ -1,1 +1,7 @@
-<p>five-nights-1 works!</p>
+<div *ngIf="!gameStarted">
+    <button (click)="startGame()">INICIAR PARTIDA</button>
+</div>
+
+<div *ngIf="gameStarted" class="oficina">
+    <img src="../../../../assets/five-nights/oficina/oficina-1.png" alt="Oficina">
+</div>

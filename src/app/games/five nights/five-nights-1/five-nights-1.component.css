@@ -1,0 +1,20 @@
+body {
+    margin: 0; /* Sin márgenes en el body */
+    overflow: hidden; /* Elimina scroll del body */
+}
+
+.oficina {
+    width: 100vw; /* Ancho igual al viewport del navegador */
+    height: 750px; /* Altura igual al viewport del navegador */
+    overflow-x: auto; /* Permite scroll horizontal */
+    overflow-y: hidden;
+    display: flex; /* Flexbox para manejo más fácil */
+    justify-content: start; /* Alineación inicial del contenido */
+    align-items: center; /* Centra verticalmente */
+}
+
+img {
+    width: 2500px; /* Ancho fijo de la imagen */
+    height: 750px; /* Mantiene la proporción de la imagen */
+    display: block; /* Evita espacios blancos extra */
+}

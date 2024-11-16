@@ -3,6 +3,8 @@ import { HomeComponent } from './home/home.component';
 import { LolWordleGameComponent } from './games/league of legends/lol-wordle-game/lol-wordle-game.component';
 import { BlackJackComponent } from './games/casino/black-jack/black-jack.component';
 import { TragaperrasComponent } from './games/casino/tragaperras/tragaperras.component';
+import { FiveNights1Component } from './games/five nights/five-nights-1/five-nights-1.component';
+import { GLOBAL_CONSTANTES } from './five-nights-constants';
 
 export const routes: Routes = [
   {
@@ -16,15 +18,19 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'home/LOL/play/Encontrar_el_campeon',
+    path: `${GLOBAL_CONSTANTES.LOL_WORDLE_SHOW_URL_ROUTE}`,
     component: LolWordleGameComponent,
   },
   {
-    path: 'home/CASINO/play/Black_Jack',
+    path: `${GLOBAL_CONSTANTES.FIVE_NIGHTS_URL_ROUTE}`,
+    component: FiveNights1Component,
+  },
+  {
+    path: `${GLOBAL_CONSTANTES.BLACKJACK_URL_ROUTE}`,
     component: BlackJackComponent,
   },
   {
-    path: 'home/CASINO/play/Maquina_tragaperras',
+    path: `${GLOBAL_CONSTANTES.TRAGAPERRAS_URL_ROUTE}`,
     component: TragaperrasComponent,
   },
   {
