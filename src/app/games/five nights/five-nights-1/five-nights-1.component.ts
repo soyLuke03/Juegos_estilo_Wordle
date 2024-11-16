@@ -1,111 +1,207 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  OnDestroy,
+  OnInit,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-five-nights-1',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './five-nights-1.component.html',
-  styleUrls: ['./five-nights-1.component.css']
+  styleUrls: ['./five-nights-1.component.css'],
 })
-export class FiveNights1Component implements OnDestroy {
+export class FiveNights1Component implements OnInit, OnDestroy {
+  // Coordenadas iniciales de la zona clicable (basadas en tu imagen)
+  puerta1 = { x: 350, y: 355, width: 35, height: 35 };
+  puerta1Luz = { x: 350, y: 390, width: 35, height: 35 };
+  puerta2 = { x: 2096, y: 340, width: 35, height: 38 };
+  puerta2Luz = { x: 2096, y: 382, width: 35, height: 37 };
+  pasilloLuz = { x: 1202, y: 342, width: 95, height: 37 };
+  camaras = { x: 1102, y: 660, width: 350, height: 150 };
+  camarasOpened = { x: 1102, y: 660, width: 350, height: 150 };
+  reloj = { x: 1642, y: 100, width: 142, height: 40 };
+
+  timeString: string = '12:00';
+  timeNumber: number = 0;
 
   gameStarted: boolean = false;
+  cameraOpen: boolean = false;
+  cameraNumber: number = 0;
+
+  doors = {
+    rightDoor: false,
+    leftDoor: false,
+    centralDoor: false
+  }
 
   private oficinaElement!: HTMLElement;
   private mouseMoveHandler!: (event: MouseEvent) => void;
+  private previousMouseX: number | null = null;
+
+  ngOnInit() {
+    // this.mouseMoveHandler = this.logMouseCoordinates.bind(this);
+    this.mouseMoveHandler = this._onMouseMove.bind(this);
+    window.addEventListener('mousemove', this.mouseMoveHandler);
+  
+    this._keyBoardEvent = this._keyBoardEvent.bind(this); // Bind the keyboard event handler
+    window.addEventListener('keypress', this._keyBoardEvent);
+  }
 
   startMovements() {
     this.oficinaElement = document.querySelector('.oficina') as HTMLElement;
-    console.log(this.oficinaElement);
-    
 
     if (this.oficinaElement) {
-      // Asegurarse de que el scroll se establezca después de la carga completa
       setTimeout(() => {
         const targetScroll = 500;
         this.oficinaElement.scrollLeft = targetScroll;
       }, 100); // Retraso para asegurar el renderizado completo
 
-      // Agregar el evento de movimiento del ratón
-      this.mouseMoveHandler = this.onMouseMove.bind(this);
+      this.mouseMoveHandler = this._onMouseMove.bind(this);
       window.addEventListener('mousemove', this.mouseMoveHandler);
     }
   }
-  
+
   ngOnDestroy() {
     // Limpiar el evento al destruir el componente
     window.removeEventListener('mousemove', this.mouseMoveHandler);
   }
 
-  private previousMouseX: number | null = null; // Almacena la posición anterior del ratón
-  
-  private onMouseMove(event: MouseEvent) {
-    const mouseX = event.clientX; // Posición X del ratón
-    const windowWidth = window.innerWidth; // Ancho de la ventana
-    const scrollWidth = this.oficinaElement.scrollWidth; // Ancho del contenido scrollable
-    
-    // Define los márgenes
-    const leftMargin = 250; // Margen izquierdo
-    const rightMargin = windowWidth - 250; // Margen derecho
-    const centralMargin = 50; // Margen central (ajusta este valor según sea necesario)
-    
-    // Calcula los límites del margen central
-    const centralLeftLimit = leftMargin + centralMargin;
-    const centralRightLimit = rightMargin - centralMargin;
-  
-    // Verifica si el ratón está fuera del margen central
-    if (mouseX <= leftMargin) {
-      // Ratón en el margen izquierdo
-      if (this.previousMouseX !== null && mouseX < this.previousMouseX) {
-        // Solo desplazar a la izquierda
-        const scrollPosition = (mouseX / windowWidth) * (scrollWidth - windowWidth); // Cálculo de la posición de scroll
-        this.oficinaElement.scrollTo({
-          left: scrollPosition,
-          behavior: 'smooth' // Comportamiento suave
-        });
-      }
-    } else if (mouseX >= rightMargin) {
-      // Ratón en el margen derecho
-      if (this.previousMouseX !== null && mouseX > this.previousMouseX) {
-        // Solo desplazar a la derecha
-        const scrollPosition = (mouseX / windowWidth) * (scrollWidth - windowWidth); // Cálculo de la posición de scroll
-        this.oficinaElement.scrollTo({
-          left: scrollPosition,
-          behavior: 'smooth' // Comportamiento suave
-        });
-      }
-    } else if (mouseX < centralLeftLimit || mouseX > centralRightLimit) {
-      // Si el ratón está fuera del margen central
-      if (this.previousMouseX !== null && mouseX < this.previousMouseX) {
-        // Solo desplazar a la izquierda si está fuera del margen central
-        this.oficinaElement.scrollTo({
-          left: 500,
-          behavior: 'smooth' // Comportamiento suave
-        });
-      } else if (this.previousMouseX !== null && mouseX > this.previousMouseX) {
-        // Solo desplazar a la derecha si está fuera del margen central
-        const scrollPosition = (mouseX / windowWidth) * (scrollWidth - windowWidth); // Cálculo de la posición de scroll
-        this.oficinaElement.scrollTo({
-          left: scrollPosition,
-          behavior: 'smooth' // Comportamiento suave
-        });
-      }
-    }
-  
-    // Actualiza la posición anterior del ratón
-    this.previousMouseX = mouseX;
-  }
-
-
   startGame() {
     this.gameStarted = true;
+    this.timeString = '12:00';
+    this.timeNumber = 0;
+    this.cameraNumber = 0;
+    this._startTimeCounting();
+    this._startMouseMovement();
+  }
+
+  finishGame() {
+    console.log('La partida ha terminado');
+    this.gameStarted = false;
+  }
+
+  openCamera() {
+    this.cameraOpen = !this.cameraOpen;
+  }
+
+  useButtonDoor(doorId: number) {
+    switch (doorId) {
+      case 1:
+        this.doors.leftDoor = !this.doors.leftDoor
+
+        break;
+      case 2:
+        this.doors.rightDoor = !this.doors.rightDoor
+        
+        break;
+    }
+  }
+
+  lightButtonDoor(doorId: number) {
+    switch (doorId) {
+      case 1:
+        this.doors.leftDoor = !this.doors.leftDoor
+
+        break;
+      case 2:
+        this.doors.rightDoor = !this.doors.rightDoor
+        
+        break;
+      case 3:
+        this.doors.centralDoor = !this.doors.centralDoor
+        
+        break;
+    }
+  }
+
+  private _startTimeCounting() {
+    setInterval(() => {
+      this._timeIntervalToTimeString();
+    }, 1000);
+  }
+
+  private _startMouseMovement() {
     setTimeout(() => {
       this.startMovements();
     }, 200);
   }
 
-  finishGame() {
-    this.gameStarted = false;
+  private _timeIntervalToTimeString() {
+    this.timeNumber++; // Incrementar el tiempo en segundos
+
+    const minutes = Math.floor(this.timeNumber / 60); // Calcular minutos
+    const seconds = this.timeNumber % 60; // Calcular segundos
+
+    // Formatear el tiempo en formato HH:MM:SS
+    this.timeString = `${String(minutes).padStart(2, '0')}:${String(
+      seconds
+    ).padStart(2, '0')}`;
+  }
+
+  private _logMouseCoordinates(event: MouseEvent) {
+    const mouseX = event.clientX; // Coordenada X del ratón
+    const mouseY = event.clientY; // Coordenada Y del ratón
+    console.log(`Coordenadas del mouse: X: ${mouseX}, Y: ${mouseY}`);
+  }
+
+  private _onMouseMove(event: MouseEvent) {
+    const mouseX = event.clientX;
+    const windowWidth = window.innerWidth;
+    const scrollWidth = this.oficinaElement.scrollWidth;
+
+    const leftMargin = 700;
+    const rightMargin = windowWidth - 700;
+    const centralMargin = 50;
+
+    const centralLeftLimit = leftMargin + centralMargin;
+    const centralRightLimit = rightMargin - centralMargin;
+
+    if (mouseX <= leftMargin) {
+      if (this.previousMouseX !== null && mouseX < this.previousMouseX) {
+        const scrollPosition =
+          (mouseX / windowWidth) * (scrollWidth - windowWidth);
+        this.oficinaElement.scrollTo({
+          left: scrollPosition,
+          behavior: 'smooth',
+        });
+      }
+    } else if (mouseX >= rightMargin) {
+      if (this.previousMouseX !== null && mouseX > this.previousMouseX) {
+        const scrollPosition =
+          (mouseX / windowWidth) * (scrollWidth - windowWidth);
+        this.oficinaElement.scrollTo({
+          left: scrollPosition,
+          behavior: 'smooth',
+        });
+      }
+    } else if (mouseX < centralLeftLimit || mouseX > centralRightLimit) {
+      if (this.previousMouseX !== null && mouseX < this.previousMouseX) {
+        this.oficinaElement.scrollTo({
+          left: 500,
+          behavior: 'smooth',
+        });
+      } else if (this.previousMouseX !== null && mouseX > this.previousMouseX) {
+        const scrollPosition =
+          (mouseX / windowWidth) * (scrollWidth - windowWidth);
+        this.oficinaElement.scrollTo({
+          left: scrollPosition,
+          behavior: 'smooth',
+        });
+      }
+    }
+
+    this.previousMouseX = mouseX;
+  }
+
+  private _keyBoardEvent(event: KeyboardEvent) {
+    if (event.key == 'W' || event.key == 'w') {
+      this.openCamera();
+    }
   }
 }

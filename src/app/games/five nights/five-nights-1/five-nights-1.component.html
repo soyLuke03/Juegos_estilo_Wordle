@@ -1,7 +1,106 @@
 <div *ngIf="!gameStarted">
-    <button (click)="startGame()">INICIAR PARTIDA</button>
+  <button (click)="startGame()">INICIAR PARTIDA</button>
 </div>
 
 <div *ngIf="gameStarted" class="oficina">
-    <img src="../../../../assets/five-nights/oficina/oficina-1.png" alt="Oficina">
+  <div *ngIf="!cameraOpen">
+    <img
+      src="../../../../assets/five-nights/oficina/oficina-1.png"
+      alt="Oficina"
+      class="oficina-img"
+      draggable="false"
+    />
+
+    <!-- Zona clicable -->
+    <div
+      class="click-area opened"
+      (click)="useButtonDoor(1)"
+      [style.left.px]="puerta1.x"
+      [style.top.px]="puerta1.y"
+      [style.width.px]="puerta1.width"
+      [style.height.px]="puerta1.height"
+    ></div>
+
+    <div
+      class="click-area lights-off"
+      (click)="lightButtonDoor(1)"
+      [style.left.px]="puerta1Luz.x"
+      [style.top.px]="puerta1Luz.y"
+      [style.width.px]="puerta1Luz.width"
+      [style.height.px]="puerta1Luz.height"
+    ></div>
+
+    <div
+      class="click-area closed"
+      (click)="useButtonDoor(2)"
+      [style.left.px]="puerta2.x"
+      [style.top.px]="puerta2.y"
+      [style.width.px]="puerta2.width"
+      [style.height.px]="puerta2.height"
+    ></div>
+
+    <div
+      class="click-area lights-on"
+      (click)="lightButtonDoor(2)"
+      [style.left.px]="puerta2Luz.x"
+      [style.top.px]="puerta2Luz.y"
+      [style.width.px]="puerta2Luz.width"
+      [style.height.px]="puerta2Luz.height"
+    ></div>
+
+    <div
+      class="click-area lights-off"
+      (click)="lightButtonDoor(3)"
+      [style.left.px]="pasilloLuz.x"
+      [style.top.px]="pasilloLuz.y"
+      [style.width.px]="pasilloLuz.width"
+      [style.height.px]="pasilloLuz.height"
+    ></div>
+
+    <div
+      class="click-area"
+      (click)="openCamera()"
+      [style.left.px]="camaras.x"
+      [style.top.px]="camaras.y"
+      [style.width.px]="camaras.width"
+      [style.height.px]="camaras.height"
+    ></div>
+
+    <div
+      class="reloj"
+      [style.left.px]="reloj.x"
+      [style.top.px]="reloj.y"
+      [style.width.px]="reloj.width"
+      [style.height.px]="reloj.height"
+    >
+      {{ timeString }}
+    </div>
+  </div>
+
+  <div *ngIf="cameraOpen" class="modal-camaras">
+    <span class="close" (click)="openCamera()">&times;</span>
+
+    <div *ngIf="cameraNumber == 0">
+      <img
+        src="../../../../assets/five-nights/oficina/oficina-1.png"
+        alt="Oficina"
+        class="camara-img"
+        draggable="false"
+      />
+    </div>
+    <div *ngIf="cameraNumber == 1"></div>
+    <div *ngIf="cameraNumber == 1"></div>
+    <div *ngIf="cameraNumber == 1"></div>
+    <div *ngIf="cameraNumber == 1"></div>
+    <div *ngIf="cameraNumber == 1"></div>
+
+    <div
+      class="click-area"
+      (click)="openCamera()"
+      [style.left.px]="camarasOpened.x"
+      [style.top.px]="camarasOpened.y"
+      [style.width.px]="camarasOpened.width"
+      [style.height.px]="camarasOpened.height"
+    ></div>
+  </div>
 </div>

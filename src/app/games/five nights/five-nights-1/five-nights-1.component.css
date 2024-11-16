@@ -1,20 +1,72 @@
-body {
-    margin: 0; /* Sin márgenes en el body */
-    overflow: hidden; /* Elimina scroll del body */
-}
-
 .oficina {
-    width: 100vw; /* Ancho igual al viewport del navegador */
-    height: 750px; /* Altura igual al viewport del navegador */
-    overflow-x: auto; /* Permite scroll horizontal */
-    overflow-y: hidden;
-    display: flex; /* Flexbox para manejo más fácil */
-    justify-content: start; /* Alineación inicial del contenido */
-    align-items: center; /* Centra verticalmente */
+  width: 98vw; /* Ancho igual al viewport del navegador */
+  height: 750px; /* Altura igual al viewport del navegador */
+  overflow-x: auto; /* Permite scroll horizontal */
+  overflow-y: hidden;
+  display: flex; /* Flexbox para manejo más fácil */
+  justify-content: start; /* Alineación inicial del contenido */
+  align-items: center; /* Centra verticalmente */
+  position: relative;
 }
 
-img {
-    width: 2500px; /* Ancho fijo de la imagen */
-    height: 750px; /* Mantiene la proporción de la imagen */
-    display: block; /* Evita espacios blancos extra */
+.oficina-img {
+  width: 2500px; /* Ancho fijo de la imagen */
+  height: 750px; /* Mantiene la proporción de la imagen */
+  display: block; /* Evita espacios blancos extra */
+}
+
+.camara-img {
+  width: 100%; /* Ancho fijo de la imagen */
+  height: 100%; /* Mantiene la proporción de la imagen */
+  display: block; /* Evita espacios blancos extra */
+  background-color: black;
+  padding: 10px;
+}
+
+.modal-camaras{
+  width: 100%;
+  height: 100%;
+}
+
+.click-area,
+.reloj {
+  position: absolute;
+}
+
+.click-area {
+  cursor: pointer;
+}
+
+.opened {
+  background: rgba(51, 255, 0, 0.615); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+}
+
+.closed {
+  background: rgba(255, 0, 0, 0.615); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+}
+
+.lights-on{
+  background: rgba(206, 206, 206, 0.884); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+}
+
+.lights-off{
+  background: rgba(206, 206, 206, 0.214); /* O "rgba(0,0,0,0)" para mayor compatibilidad */
+}
+
+.reloj {
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-family: fantasy;
+}
+
+.modal-camaras{
+  height: auto;
+  width: 100%;
+}
+
+.close {
+  color: #aaa;
 }
