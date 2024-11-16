@@ -44,6 +44,7 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   BATTERY_MILISECONDS:number = 5000; // 20% restante a 1000ms 
   LIGHT_CONSUME_TIME:number = 0.1
   DOOR_CLOSE_CONSUME_TIME:number = 0.25
+  CAMERA_CONSUME_TIME:number = 0.2
 
   doors = {
     rightDoor: {
@@ -226,7 +227,7 @@ export class FiveNights1Component implements OnInit, OnDestroy {
   }
 
   private _keyBoardEvent(event: KeyboardEvent) {
-    if (event.key == 'W' || event.key == 'w') {
+    if (event.key == 'W' || event.key == 'w' && this.gameStarted) {
       this.openCamera();
     }
   }
@@ -257,6 +258,11 @@ export class FiveNights1Component implements OnInit, OnDestroy {
       
       if (this.doors.centralDoor.light) {
         totalConsumption += this.LIGHT_CONSUME_TIME;
+      }
+
+      // Sumar el consumo por cámaras
+      if (this.cameraOpen) {
+        totalConsumption += this.CAMERA_CONSUME_TIME;
       }
       
       this.batteryLeft -= totalConsumption;

@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="gameStarted" class="oficina">
-  <div *ngIf="!cameraOpen">
+  <ng-container *ngIf="!cameraOpen">
     <img
       src="../../../../assets/five-nights/oficina/oficina-1.png"
       alt="Oficina"
@@ -11,102 +11,75 @@
       draggable="false"
     />
 
-    <!-- Zona clicable -->
-    <div
-      *ngIf="doors.leftDoor.opened"
-      class="click-area opened"
-      (click)="useButtonDoor(1)"
-      [style.left.px]="puerta1.x"
-      [style.top.px]="puerta1.y"
-      [style.width.px]="puerta1.width"
-      [style.height.px]="puerta1.height"
-    ></div>
-    <div
-      *ngIf="!doors.leftDoor.opened"
-      class="click-area closed"
-      (click)="useButtonDoor(1)"
-      [style.left.px]="puerta1.x"
-      [style.top.px]="puerta1.y"
-      [style.width.px]="puerta1.width"
-      [style.height.px]="puerta1.height"
-    ></div>
+    <!-- Zona clicable para puertas -->
+    <div class="door-area">
+      <div
+        class="click-area"
+        [ngClass]="{
+          opened: doors.leftDoor.opened,
+          closed: !doors.leftDoor.opened
+        }"
+        (click)="useButtonDoor(1)"
+        [style.left.px]="puerta1.x"
+        [style.top.px]="puerta1.y"
+        [style.width.px]="puerta1.width"
+        [style.height.px]="puerta1.height"
+      ></div>
 
-    <div
-      *ngIf="doors.leftDoor.light"
-      class="click-area lights-on"
-      (click)="lightButtonDoor(1)"
-      [style.left.px]="puerta1Luz.x"
-      [style.top.px]="puerta1Luz.y"
-      [style.width.px]="puerta1Luz.width"
-      [style.height.px]="puerta1Luz.height"
-    ></div>
-    <div
-      *ngIf="!doors.leftDoor.light"
-      class="click-area lights-off"
-      (click)="lightButtonDoor(1)"
-      [style.left.px]="puerta1Luz.x"
-      [style.top.px]="puerta1Luz.y"
-      [style.width.px]="puerta1Luz.width"
-      [style.height.px]="puerta1Luz.height"
-    ></div>
+      <div
+        class="click-area"
+        [ngClass]="{
+          'lights-on': doors.leftDoor.light,
+          'lights-off': !doors.leftDoor.light
+        }"
+        (click)="lightButtonDoor(1)"
+        [style.left.px]="puerta1Luz.x"
+        [style.top.px]="puerta1Luz.y"
+        [style.width.px]="puerta1Luz.width"
+        [style.height.px]="puerta1Luz.height"
+      ></div>
 
-    <div
-      *ngIf="doors.rightDoor.opened"
-      class="click-area opened"
-      (click)="useButtonDoor(2)"
-      [style.left.px]="puerta2.x"
-      [style.top.px]="puerta2.y"
-      [style.width.px]="puerta2.width"
-      [style.height.px]="puerta2.height"
-    ></div>
-    <div
-      *ngIf="!doors.rightDoor.opened"
-      class="click-area closed"
-      (click)="useButtonDoor(2)"
-      [style.left.px]="puerta2.x"
-      [style.top.px]="puerta2.y"
-      [style.width.px]="puerta2.width"
-      [style.height.px]="puerta2.height"
-    ></div>
+      <div
+        class="click-area"
+        [ngClass]="{
+          opened: doors.rightDoor.opened,
+          closed: !doors.rightDoor.opened
+        }"
+        (click)="useButtonDoor(2)"
+        [style.left.px]="puerta2.x"
+        [style.top.px]="puerta2.y"
+        [style.width.px]="puerta2.width"
+        [style.height.px]="puerta2.height"
+      ></div>
 
-    <div
-      *ngIf="doors.rightDoor.light"
-      class="click-area lights-on"
-      (click)="lightButtonDoor(2)"
-      [style.left.px]="puerta2Luz.x"
-      [style.top.px]="puerta2Luz.y"
-      [style.width.px]="puerta2Luz.width"
-      [style.height.px]="puerta2Luz.height"
-    ></div>
-    <div
-      *ngIf="!doors.rightDoor.light"
-      class="click-area lights-off"
-      (click)="lightButtonDoor(2)"
-      [style.left.px]="puerta2Luz.x"
-      [style.top.px]="puerta2Luz.y"
-      [style.width.px]="puerta2Luz.width"
-      [style.height.px]="puerta2Luz.height"
-    ></div>
+      <div
+        class="click-area"
+        [ngClass]="{
+          'lights-on': doors.rightDoor.light,
+          'lights-off': !doors.rightDoor.light
+        }"
+        (click)="lightButtonDoor(2)"
+        [style.left.px]="puerta2Luz.x"
+        [style.top.px]="puerta2Luz.y"
+        [style.width.px]="puerta2Luz.width"
+        [style.height.px]="puerta2Luz.height"
+      ></div>
 
-    <div
-      *ngIf="doors.centralDoor.light"
-      class="click-area lights-on"
-      (click)="lightButtonDoor(3)"
-      [style.left.px]="pasilloLuz.x"
-      [style.top.px]="pasilloLuz.y"
-      [style.width.px]="pasilloLuz.width"
-      [style.height.px]="pasilloLuz.height"
-    ></div>
-    <div
-      *ngIf="!doors.centralDoor.light"
-      class="click-area lights-off"
-      (click)="lightButtonDoor(3)"
-      [style.left.px]="pasilloLuz.x"
-      [style.top.px]="pasilloLuz.y"
-      [style.width.px]="pasilloLuz.width"
-      [style.height.px]="pasilloLuz.height"
-    ></div>
+      <div
+        class="click-area"
+        [ngClass]="{
+          'lights-on': doors.centralDoor.light,
+          'lights-off': !doors.centralDoor.light
+        }"
+        (click)="lightButtonDoor(3)"
+        [style.left.px]="pasilloLuz.x"
+        [style.top.px]="pasilloLuz.y"
+        [style.width.px]="pasilloLuz.width"
+        [style.height.px]="pasilloLuz.height"
+      ></div>
+    </div>
 
+    <!-- Área de cámara -->
     <div
       class="camera-click-area"
       (click)="openCamera()"
@@ -116,6 +89,7 @@
       [style.height.px]="camaras.height"
     ></div>
 
+    <!-- Indicadores de batería y reloj -->
     <div
       class="bateria"
       [style.left.px]="bateria.x"
@@ -135,7 +109,7 @@
     >
       {{ timeString }}
     </div>
-  </div>
+  </ng-container>
 
   <div *ngIf="cameraOpen" class="modal-camaras">
     <span class="close" (click)="openCamera()">&times;</span>
@@ -148,11 +122,11 @@
         draggable="false"
       />
     </div>
+    <div *ngIf="cameraNumber == 0"></div>
     <div *ngIf="cameraNumber == 1"></div>
-    <div *ngIf="cameraNumber == 1"></div>
-    <div *ngIf="cameraNumber == 1"></div>
-    <div *ngIf="cameraNumber == 1"></div>
-    <div *ngIf="cameraNumber == 1"></div>
+    <div *ngIf="cameraNumber == 2"></div>
+    <div *ngIf="cameraNumber == 3"></div>
+    <div *ngIf="cameraNumber == 4"></div>
 
     <div
       class="camera-click-area"
