@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-game',
@@ -36,10 +37,10 @@ export class LolWordleGameComponent implements OnInit {
       genero: Genero.Femenino,
       posicion: [Posicion.Medio],
       especie: [Especie.Humano, Especie.Magicamente_Alterado],
-      recurso: Recurso.Energia,
-      tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
+      recurso: Recurso.Mana,
+      tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Noxus],
-      fechaDeLanzamiento: 2024,
+      fechaDeLanzamiento: 2025,
     },
     {
       nombre: 'Ambessa',
@@ -1810,7 +1811,13 @@ export class LolWordleGameComponent implements OnInit {
       this.campeonesPosiblesSegunBusqueda = [];
       this.conseguirPuntos();
       this.guardarPuntosEnCookies();
-      alert('VICTORIA');
+      Swal.fire({
+        title: "VICTORIA",
+        text: `Has ganado, el campeón es: ${this.campeonElegido.nombre.toUpperCase()}`,
+        icon: "success",
+        timer: 5000,
+        timerProgressBar: true
+      });
     }
   }
 

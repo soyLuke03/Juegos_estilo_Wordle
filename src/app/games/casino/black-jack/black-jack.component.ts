@@ -9,6 +9,7 @@ import { Palo } from '../../../models/modelos-blackjack/Palo.enum';
 import { Valor } from '../../../models/modelos-blackjack/Valor.enum';
 import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
 import { CasinoService } from '../../../services/casino.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-black-jack',
@@ -21,6 +22,8 @@ export class BlackJackComponent implements OnInit {
   constructor(private router: Router, private casino: CasinoService) {}
 
   puntuacionTotal: number = this.casino.getPuntuacionTotal();
+  timers: number = 1500;
+
 
   ngOnInit(): void {}
 
@@ -76,17 +79,32 @@ export class BlackJackComponent implements OnInit {
 
   private ganarPartida() {
     this.obtenerPuntos(1);
-    alert('jugador gana');
+      Swal.fire({
+        title: "Has ganado",
+        icon: "success",
+        timer: this.timers,
+        timerProgressBar: true
+      });
   }
 
   private perderPartida() {
     this.obtenerPuntos(-1);
-    alert('jugador pierde');
+    Swal.fire({
+      title: "Has perdido",
+      icon: "error",
+      timer: this.timers,
+      timerProgressBar: true
+    });
   }
 
   private empatarPartida() {
     this.obtenerPuntos(0);
-    alert('empate');
+    Swal.fire({
+      title: "Empate",
+      icon: "info",
+      timer: this.timers,
+      timerProgressBar: true
+    });
   }
 
   private comprobarPartida() {
