@@ -8,14 +8,14 @@
     <h2 class="maquina">Puntos IA ( {{ totalPuntosIAManoActual }} )</h2>
   </div>
   <div class="action-buttons">
-    <button *ngIf="!partidaAcabada" (click)="jugadorJuega()">
+    <button *ngIf="!partidaAcabada && turnoJugador" (click)="jugadorJuega()">
       Pedir carta
     </button>
     <button *ngIf="!partidaAcabada" (click)="iaJuega()">Acabar turno</button>
     <button *ngIf="partidaAcabada" (click)="reiniciarPartida()">
       Nueva partida
     </button>
-    <select [(ngModel)]="dificultad">
+    <select [(ngModel)]="dificultad" [disabled]="isJugadorJugando()">
       <option>Fácil</option>
       <option>Medio</option>
       <option>Difícil</option>

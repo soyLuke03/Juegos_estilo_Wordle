@@ -1,28 +1,98 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CasinoService {
-
   private puntuacionTotal: number = 0;
   private dictionary: { [key: string]: string } = {
-    'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5', 'f': '6', 'g': '7', 'h': '8', 'i': '9',
-    'j': 'A', 'k': 'B', 'l': 'C', 'm': 'D', 'n': 'E', 'o': 'F', 'p': 'G', 'q': 'H', 'r': 'I',
-    's': 'J', 't': 'K', 'u': 'L', 'v': 'M', 'w': 'N', 'x': 'O', 'y': 'P', 'z': 'Q',
-    'A': 'R', 'B': 'S', 'C': 'T', 'D': 'U', 'E': 'V', 'F': 'W', 'G': 'X', 'H': 'Y', 'I': 'Z',
-    '0': 'a', '1': 'b', '2': 'c', '3': 'd', '4': 'e', '5': 'f', '6': 'g', '7': 'h', '8': 'i',
+    a: '1',
+    b: '2',
+    c: '3',
+    d: '4',
+    e: '5',
+    f: '6',
+    g: '7',
+    h: '8',
+    i: '9',
+    j: 'A',
+    k: 'B',
+    l: 'C',
+    m: 'D',
+    n: 'E',
+    o: 'F',
+    p: 'G',
+    q: 'H',
+    r: 'I',
+    s: 'J',
+    t: 'K',
+    u: 'L',
+    v: 'M',
+    w: 'N',
+    x: 'O',
+    y: 'P',
+    z: 'Q',
+    A: 'R',
+    B: 'S',
+    C: 'T',
+    D: 'U',
+    E: 'V',
+    F: 'W',
+    G: 'X',
+    H: 'Y',
+    I: 'Z',
+    '0': 'a',
+    '1': 'b',
+    '2': 'c',
+    '3': 'd',
+    '4': 'e',
+    '5': 'f',
+    '6': 'g',
+    '7': 'h',
+    '8': 'i',
     '9': 'j',
-    '!': 'k', '@': 'l', '#': 'm', '$': 'n', '%': 'o', '^': 'p', '&': 'q', '*': 'r',
-    '(': 's', ')': 't', '-': 'u', '_': 'v', '=': 'w', '+': 'x', '[': 'y', ']': 'z',
-    '{': 'A', '}': 'B', '|': 'C', '\\': 'D', ':': 'E', ';': 'F', "'": 'G', '"': 'H',
-    '<': 'I', '>': 'J', ',': 'K', '.': 'L', '?': 'M', '/': 'N', '~': 'O', '`': 'P',
-    ' ': 'Q', '\t': 'R', '\n': 'S', '\r': 'T', '\b': 'U', '\f': 'V', '\v': 'W',
+    '!': 'k',
+    '@': 'l',
+    '#': 'm',
+    $: 'n',
+    '%': 'o',
+    '^': 'p',
+    '&': 'q',
+    '*': 'r',
+    '(': 's',
+    ')': 't',
+    '-': 'u',
+    _: 'v',
+    '=': 'w',
+    '+': 'x',
+    '[': 'y',
+    ']': 'z',
+    '{': 'A',
+    '}': 'B',
+    '|': 'C',
+    '\\': 'D',
+    ':': 'E',
+    ';': 'F',
+    "'": 'G',
+    '"': 'H',
+    '<': 'I',
+    '>': 'J',
+    ',': 'K',
+    '.': 'L',
+    '?': 'M',
+    '/': 'N',
+    '~': 'O',
+    '`': 'P',
+    ' ': 'Q',
+    '\t': 'R',
+    '\n': 'S',
+    '\r': 'T',
+    '\b': 'U',
+    '\f': 'V',
+    '\v': 'W',
   };
 
-  constructor() { 
-    
-  }
+  constructor() {}
 
   getPuntuacionTotal(): number {
     this.recogerPuntuacionCookies();
@@ -34,10 +104,9 @@ export class CasinoService {
   }
 
   addPuntos(puntos: number, sumar: boolean): void {
-    if(sumar){
+    if (sumar) {
       this.puntuacionTotal += puntos;
-    }
-    else {
+    } else {
       this.puntuacionTotal -= puntos;
     }
     this.guardarPuntosEnCookies();
@@ -62,7 +131,10 @@ export class CasinoService {
       const [name, value] = cookie.split('=');
 
       if (name.trim() === 'blackjack-puntos') {
-        const puntuacionDescodificada = this.decodePuntuacionTotalValue(value);
+        let puntuacionDescodificada = this.decodePuntuacionTotalValue(value);
+        if (!puntuacionDescodificada) {
+          puntuacionDescodificada = 0;
+        }
         this.puntuacionTotal = puntuacionDescodificada;
         break;
       }
@@ -70,30 +142,32 @@ export class CasinoService {
   }
 
   encodePuntuacionTotalValue(value: number): string {
-    let encodedValue = btoa(String(value));
-    encodedValue = this.privateEnconder(encodedValue)
-    encodedValue = btoa(encodedValue);
+    let encodedValue:string = this.privateEnconder(value.toString());
     encodedValue = btoa(encodedValue);
     return encodedValue;
   }
 
   decodePuntuacionTotalValue(value: string): number {
-    let decodedValue = atob(value);
-    decodedValue = atob(decodedValue);
+    let decodedValue: string = atob(value);
     decodedValue = this.privateDecoder(decodedValue);
-    decodedValue = atob(decodedValue);
     return parseInt(decodedValue, 10);
   }
 
   privateEnconder(encripted: string): string {
-    return encripted.split('').map(c => this.dictionary[c] || c).join('');
+    return encripted
+      .split('')
+      .map((c) => this.dictionary[c] || c)
+      .join('');
   }
-  
+
   privateDecoder(decripted: string): string {
     const inverseDictionary: { [key: string]: string } = {};
-    Object.keys(this.dictionary).forEach(key => {
+    Object.keys(this.dictionary).forEach((key) => {
       inverseDictionary[this.dictionary[key]] = key;
     });
-    return decripted.split('').map(c => inverseDictionary[c] || c).join('');
+    return decripted
+      .split('')
+      .map((c) => inverseDictionary[c] || c)
+      .join('');
   }
 }

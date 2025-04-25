@@ -17,14 +17,12 @@ import { CasinoService } from '../../../services/casino.service';
   templateUrl: './black-jack.component.html',
   styleUrl: './black-jack.component.css',
 })
-export class BlackJackComponent implements OnInit{
-  constructor(private router: Router, private casino: CasinoService) {
-  }
+export class BlackJackComponent implements OnInit {
+  constructor(private router: Router, private casino: CasinoService) {}
 
   puntuacionTotal: number = this.casino.getPuntuacionTotal();
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   totalPuntosJugadorManoActual: number = 0;
   totalPuntosIAManoActual: number = 0;
@@ -34,107 +32,12 @@ export class BlackJackComponent implements OnInit{
   cartasJugador: Cartas = [];
   cartasIA: Cartas = [];
 
+  turnoJugador: boolean = true;
+  turnoIA: boolean = false;
+
   partidaAcabada: boolean = false;
 
-  jugadorJuega() {
-    const carta = this.obtenerCarta();
-    this.cartasJugador.unshift(carta);
-    this.obtenerPuntosJugador(carta);
-  }
-
-  iaJuega() {
-    let carta: Carta | undefined;
-
-    switch (this.dificultad) {
-      case Dificultad.Facil:
-        do {
-          if (Math.random() < 0.8) {
-            carta = this.obtenerCarta();
-            this.cartasIA.unshift(carta);
-            this.obtenerPuntosIA(carta);
-          } else {
-            console.log("IA PASA")
-            break;
-          }
-        } while (
-          this.totalPuntosIAManoActual < 21 ||
-          this.totalPuntosIAManoActual == 0
-        );
-        break;
-
-      case Dificultad.Medio:
-        do {
-          if (Math.random() < 0.85) {
-            carta = this.obtenerCarta();
-            this.cartasIA.unshift(carta);
-            this.obtenerPuntosIA(carta);
-          } else {
-            break;
-          }
-        } while (
-          this.totalPuntosIAManoActual < 21 ||
-          this.totalPuntosIAManoActual == 0
-        );
-        break;
-
-      case Dificultad.Dificil:
-        do {
-          if (this.totalPuntosIAManoActual < 13) {
-              if (Math.random() < 0.9) {
-              carta = this.obtenerCarta();
-              this.cartasIA.unshift(carta);
-              this.obtenerPuntosIA(carta);
-            }
-          } else {
-            if (Math.random() < 0.5) {
-              carta = this.obtenerCarta();
-              this.cartasIA.unshift(carta);
-              this.obtenerPuntosIA(carta);
-            } else {
-              break;
-            }
-          }
-        } while (
-          this.totalPuntosIAManoActual < 21 ||
-          this.totalPuntosIAManoActual == 0
-        );
-        break;
-
-      case Dificultad.Insano:
-        // Insane difficulty: always draws cards until its total points are greater than the player's total points and less than or equal to 21
-        while (
-          this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual &&
-          this.totalPuntosIAManoActual <= 21
-        ) {
-          carta = this.obtenerCarta();
-          const puntosCarta = this.obtenerValor(carta.valor);
-          if (this.totalPuntosIAManoActual + puntosCarta <= 21) {
-            this.cartasIA.unshift(carta);
-            this.obtenerPuntosIA(carta);
-          } else {
-            break;
-          }
-        }
-        break;
-
-      case Dificultad.Imposible:
-        // Impossible difficulty: always wins with exactly 21 points
-        while (this.totalPuntosIAManoActual < 21) {
-          carta = this.obtenerCarta();
-          const puntosCarta = this.obtenerValor(carta.valor);
-          if (this.totalPuntosIAManoActual + puntosCarta > 21) {
-            // If adding the new card would make the IA go over 21, don't add it
-            continue;
-          }
-          this.cartasIA.unshift(carta);
-          this.obtenerPuntosIA(carta);
-        }
-        break;
-    }
-    this.comprobarPartida();
-  }
-
-  obtenerCarta(): Carta {
+  private obtenerCarta(): Carta {
     const palos = Object.values(Palo);
     const valores = Object.values(Valor);
 
@@ -154,52 +57,91 @@ export class BlackJackComponent implements OnInit{
     return carta;
   }
 
-  comprobarPartida() {
-    if (this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual && this.totalPuntosJugadorManoActual < 21 && this.totalPuntosIAManoActual < 21) {
-      if (this.cartasIA.length > this.cartasJugador.length) {
-        this.obtenerPuntos(1);
-        alert('jugador gana');
-      } else if (this.cartasIA.length < this.cartasJugador.length) {
-        this.obtenerPuntos(-1);
-        alert('jugador pierde');
-      } else {
-        this.obtenerPuntos(0);
-        alert('empate');
+  private comprobarSiManoSePasa(esJugador: boolean) {
+    if (esJugador) {
+      if (this.totalPuntosJugadorManoActual > 21) {
+        this.perderPartida();
+        this.partidaAcabada = true;
+      } else if (this.totalPuntosJugadorManoActual == 21) {
+        this.ganarPartida();
+        this.partidaAcabada = true;
+      }
+    } else {
+      if (this.totalPuntosIAManoActual > 21) {
+        this.ganarPartida();
+        this.partidaAcabada = true;
       }
     }
-    else if (this.totalPuntosIAManoActual > 21 && this.totalPuntosJugadorManoActual > 21) {
-      if(this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual) {
-        this.obtenerPuntos(1);
-        alert('jugador gana');
+  }
+
+  private ganarPartida() {
+    this.obtenerPuntos(1);
+    alert('jugador gana');
+  }
+
+  private perderPartida() {
+    this.obtenerPuntos(-1);
+    alert('jugador pierde');
+  }
+
+  private empatarPartida() {
+    this.obtenerPuntos(0);
+    alert('empate');
+  }
+
+  private comprobarPartida() {
+    if(!this.partidaAcabada) {
+      if (
+        this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual &&
+        this.totalPuntosJugadorManoActual < 21 &&
+        this.totalPuntosIAManoActual < 21
+      ) {
+        if (this.cartasIA.length > this.cartasJugador.length) {
+          this.ganarPartida();
+        } else if (this.cartasIA.length < this.cartasJugador.length) {
+          this.perderPartida();
+        } else {
+          this.empatarPartida();
+        }
+      } else if (
+        this.totalPuntosIAManoActual > 21 &&
+        this.totalPuntosJugadorManoActual > 21
+      ) {
+        if (this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual) {
+          this.ganarPartida();
+        } else if (
+          this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual
+        ) {
+          this.perderPartida();
+        }
+      } else if (
+        this.totalPuntosIAManoActual <= 21 &&
+        this.totalPuntosJugadorManoActual <= 21
+      ) {
+        if (this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual) {
+          this.perderPartida();
+        } else if (
+          this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual
+        ) {
+          this.ganarPartida();
+        }
+      } else if (
+        this.totalPuntosIAManoActual <= 21 &&
+        this.totalPuntosJugadorManoActual > 21
+      ) {
+        this.perderPartida();
+      } else if (
+        this.totalPuntosIAManoActual > 21 &&
+        this.totalPuntosJugadorManoActual <= 21
+      ) {
+        this.ganarPartida();
       }
-      else if (this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual) {
-        this.obtenerPuntos(-1);
-        alert('jugador pierde');
-      }
-    }
-    else if (this.totalPuntosIAManoActual <= 21 && this.totalPuntosJugadorManoActual <= 21) {
-      if (this.totalPuntosIAManoActual > this.totalPuntosJugadorManoActual) {
-        this.obtenerPuntos(-1);
-        alert('jugador pierde');
-      }
-      else if (this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual) {
-        this.obtenerPuntos(1);
-        alert('jugador gana');
-      }
-    }
-    else if (this.totalPuntosIAManoActual <= 21 && this.totalPuntosJugadorManoActual > 21) {
-      this.obtenerPuntos(-1);
-      alert('jugador pierde');
-    }
-    else if (this.totalPuntosIAManoActual > 21 && this.totalPuntosJugadorManoActual <= 21) {
-      this.obtenerPuntos(1);
-      alert('jugador gana');
     }
 
     this.partidaAcabada = true;
   }
 
-  obtenerPuntos(jugadorGana: number) {
+  private obtenerPuntos(jugadorGana: number) {
     switch (this.dificultad) {
       case Dificultad.Facil:
         if (jugadorGana == 1) {
@@ -251,18 +193,14 @@ export class BlackJackComponent implements OnInit{
         }
         break;
     }
+    this.obtenerPuntosParaBanca();
+  }
+
+  private obtenerPuntosParaBanca() {
     this.puntuacionTotal = this.casino.getPuntuacionTotal();
   }
 
-  reiniciarPartida() {
-    this.partidaAcabada = false;
-    this.totalPuntosIAManoActual = 0;
-    this.totalPuntosJugadorManoActual = 0;
-    this.cartasIA = [];
-    this.cartasJugador = [];
-  }
-
-  obtenerValor(valor: Valor): number {
+  private obtenerValor(valor: Valor): number {
     switch (valor) {
       case Valor.Jota:
       case Valor.Reina:
@@ -275,17 +213,136 @@ export class BlackJackComponent implements OnInit{
     }
   }
 
-  obtenerPuntosJugador(carta: Carta) {
-    this.totalPuntosJugadorManoActual += this.obtenerValor(carta.valor);
+  private obtenerPuntosDeLaCarta(carta: Carta, esJugador: boolean) {
+    if (esJugador) {
+      this.totalPuntosJugadorManoActual += this.obtenerValor(carta.valor);
+    } else {
+      this.totalPuntosIAManoActual += this.obtenerValor(carta.valor);
+    }
   }
 
-  obtenerPuntosIA(carta: Carta) {
-    this.totalPuntosIAManoActual += this.obtenerValor(carta.valor);
+  jugadorJuega() {
+    const carta = this.obtenerCarta();
+    this.cartasJugador.unshift(carta);
+    this.obtenerPuntosDeLaCarta(carta, true);
+    this.comprobarSiManoSePasa(true);
+  }
+
+  iaJuega() {
+    this.turnoJugador = false;
+    this.turnoIA = true;
+
+    let carta: Carta | undefined;
+
+    switch (this.dificultad) {
+      case Dificultad.Facil:
+        do {
+          if (Math.random() < 0.8) {
+            carta = this.obtenerCarta();
+            this.cartasIA.unshift(carta);
+            this.obtenerPuntosDeLaCarta(carta, false);
+            this.comprobarSiManoSePasa(false);
+          } else {
+            console.log('IA PASA');
+            break;
+          }
+        } while (
+          this.totalPuntosIAManoActual < 21 ||
+          this.totalPuntosIAManoActual == 0
+        );
+        break;
+
+      case Dificultad.Medio:
+        do {
+          if (Math.random() < 0.85) {
+            carta = this.obtenerCarta();
+            this.cartasIA.unshift(carta);
+            this.obtenerPuntosDeLaCarta(carta, false);
+            this.comprobarSiManoSePasa(false);
+          } else {
+            break;
+          }
+        } while (
+          this.totalPuntosIAManoActual < 21 ||
+          this.totalPuntosIAManoActual == 0
+        );
+        break;
+
+      case Dificultad.Dificil:
+        do {
+          if (this.totalPuntosIAManoActual < 13) {
+            if (Math.random() < 0.9) {
+              carta = this.obtenerCarta();
+              this.cartasIA.unshift(carta);
+              this.obtenerPuntosDeLaCarta(carta, false);
+              this.comprobarSiManoSePasa(false);
+            }
+          } else {
+            if (Math.random() < 0.5) {
+              carta = this.obtenerCarta();
+              this.cartasIA.unshift(carta);
+              this.obtenerPuntosDeLaCarta(carta, false);
+              this.comprobarSiManoSePasa(false);
+            } else {
+              break;
+            }
+          }
+        } while (
+          this.totalPuntosIAManoActual < 21 ||
+          this.totalPuntosIAManoActual == 0
+        );
+        break;
+
+      case Dificultad.Insano:
+        // Insane difficulty: always draws cards until its total points are greater than the player's total points and less than or equal to 21
+        while (
+          this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual &&
+          this.totalPuntosIAManoActual <= 21
+        ) {
+          carta = this.obtenerCarta();
+          const puntosCarta = this.obtenerValor(carta.valor);
+          if (this.totalPuntosIAManoActual + puntosCarta <= 21) {
+            this.cartasIA.unshift(carta);
+            this.obtenerPuntosDeLaCarta(carta, false);
+            this.comprobarSiManoSePasa(false);
+          } else {
+            break;
+          }
+        }
+        break;
+
+      case Dificultad.Imposible:
+        // Impossible difficulty: always wins with exactly 21 points
+        while (this.totalPuntosIAManoActual < 21) {
+          carta = this.obtenerCarta();
+          const puntosCarta = this.obtenerValor(carta.valor);
+          if (this.totalPuntosIAManoActual + puntosCarta > 21) {
+            // If adding the new card would make the IA go over 21, don't add it
+            continue;
+          }
+          this.cartasIA.unshift(carta);
+          this.obtenerPuntosDeLaCarta(carta, false);
+        }
+        break;
+    }
+    this.comprobarPartida();
+  }
+
+  reiniciarPartida() {
+    this.turnoJugador = true;
+    this.turnoIA = false;
+    this.partidaAcabada = false;
+    this.totalPuntosIAManoActual = 0;
+    this.totalPuntosJugadorManoActual = 0;
+    this.cartasIA = [];
+    this.cartasJugador = [];
+  }
+
+  isJugadorJugando(): boolean {
+    return this.cartasJugador.length > 0;
   }
 
   returnHome(): void {
     this.router.navigate(['/home']);
   }
-
-
 }

@@ -24,7 +24,6 @@ export enum Especie {
     Golem = "Gólem",
     Renacido = "Renacido",
     Espiritu = "Espíritu",
-    Magicamente_alterado = "Mágicamente alterado",
     Brackern = "Brackern",
     Celestial = "Celestial",
     Perro = "Perro",

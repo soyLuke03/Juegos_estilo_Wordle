@@ -32,6 +32,26 @@ export class LolWordleGameComponent implements OnInit {
 
   campeones: ChampionCollection = [
     {
+      nombre: 'Mel',
+      genero: Genero.Femenino,
+      posicion: [Posicion.Medio],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
+      recurso: Recurso.Energia,
+      tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
+      region: [Region.Noxus],
+      fechaDeLanzamiento: 2024,
+    },
+    {
+      nombre: 'Ambessa',
+      genero: Genero.Femenino,
+      posicion: [Posicion.Medio, Posicion.Superior, Posicion.Jungla],
+      especie: [Especie.Humano],
+      recurso: Recurso.Energia,
+      tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
+      region: [Region.Noxus],
+      fechaDeLanzamiento: 2024,
+    },
+    {
       nombre: 'Jinx',
       genero: Genero.Femenino,
       posicion: [Posicion.Inferior],
@@ -68,7 +88,7 @@ export class LolWordleGameComponent implements OnInit {
       especie: [Especie.Humano, Especie.Espiritualista],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
-      region: [Region.Jonia],
+      region: [Region.Jonia, Region.Piltover],
       fechaDeLanzamiento: 2016,
     },
     {
@@ -95,7 +115,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Morgana',
       genero: Genero.Femenino,
       posicion: [Posicion.Soporte],
-      especie: [Especie.Aspecto, Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Aspecto, Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Demacia, Region.Targon],
@@ -175,7 +195,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Brand',
       genero: Genero.Masculino,
       posicion: [Posicion.Jungla, Posicion.Soporte],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Freljord, Region.Runaterra],
@@ -225,7 +245,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Vladimir',
       genero: Genero.Masculino,
       posicion: [Posicion.Medio],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Sed_de_sangre,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Camavor, Region.Noxus, Region.Islas_de_la_Sombra],
@@ -339,7 +359,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Cassiopeia',
       genero: Genero.Femenino,
       posicion: [Posicion.Medio],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Noxus, Region.Shurima],
@@ -419,7 +439,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Zed',
       genero: Genero.Masculino,
       posicion: [Posicion.Medio],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Energia,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Jonia],
@@ -469,7 +489,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Nilah',
       genero: Genero.Femenino,
       posicion: [Posicion.Inferior],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Aguas_Estancadas],
@@ -589,7 +609,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'LeBlanc',
       genero: Genero.Femenino,
       posicion: [Posicion.Medio],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Noxus],
@@ -649,7 +669,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Kayn',
       genero: Genero.Masculino,
       posicion: [Posicion.Jungla],
-      especie: [Especie.Darkin, Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Darkin, Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Jonia, Region.Noxus, Region.Runaterra, Region.Shurima],
@@ -659,7 +679,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Kayle',
       genero: Genero.Femenino,
       posicion: [Posicion.Superior],
-      especie: [Especie.Aspecto, Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Aspecto, Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo, TipoDeCombate.A_distancia],
       region: [Region.Demacia, Region.Targon],
@@ -769,7 +789,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Gwen',
       genero: Genero.Femenino,
       posicion: [Posicion.Superior],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Islas_de_la_Sombra, Region.Camavor],
@@ -939,7 +959,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Swain',
       genero: Genero.Masculino,
       posicion: [Posicion.Soporte],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Noxus],
@@ -1009,7 +1029,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Shyvana',
       genero: Genero.Femenino,
       posicion: [Posicion.Jungla],
-      especie: [Especie.Dragon, Especie.Magicamente_alterado],
+      especie: [Especie.Dragon, Especie.Magicamente_Alterado],
       recurso: Recurso.Furia,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Demacia],
@@ -1169,7 +1189,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Ivern',
       genero: Genero.Masculino,
       posicion: [Posicion.Jungla],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Freljord, Region.Jonia],
@@ -1229,7 +1249,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Yorick',
       genero: Genero.Masculino,
       posicion: [Posicion.Superior],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Islas_de_la_Sombra],
@@ -1239,7 +1259,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Yone',
       genero: Genero.Masculino,
       posicion: [Posicion.Superior, Posicion.Medio],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Sin_Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Jonia],
@@ -1289,7 +1309,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Tryndamere',
       genero: Genero.Masculino,
       posicion: [Posicion.Superior],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Furia,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Freljord],
@@ -1379,7 +1399,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Ryze',
       genero: Genero.Masculino,
       posicion: [Posicion.Medio],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia],
       region: [Region.Runaterra],
@@ -1442,7 +1462,7 @@ export class LolWordleGameComponent implements OnInit {
       especie: [
         Especie.Humano,
         Especie.Humano,
-        Especie.Magicamente_alterado,
+        Especie.Magicamente_Alterado,
         Especie.Nacido_con_magia,
       ],
       recurso: Recurso.Mana,
@@ -1494,7 +1514,7 @@ export class LolWordleGameComponent implements OnInit {
       nombre: 'Elise',
       genero: Genero.Femenino,
       posicion: [Posicion.Jungla],
-      especie: [Especie.Humano, Especie.Magicamente_alterado],
+      especie: [Especie.Humano, Especie.Magicamente_Alterado],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.A_distancia, TipoDeCombate.Cuerpo_a_cuerpo],
       region: [Region.Noxus, Region.Islas_de_la_Sombra],
@@ -1738,16 +1758,17 @@ export class LolWordleGameComponent implements OnInit {
   puntuacionTotal = 0;
 
   /**
-   * DEV MODE
+   *-------------------------------------- DEV MODE --------------------------------------
    */
-  devMode: boolean = true;
+  devMode: boolean = false;
 
   showModalDeTrucos = false;
 
   mostrarCampeonDEV = false;
   /**
-   *
+   * -------------------------------------- DEV MODE --------------------------------------
    */
+
   nuevoJuego() {
     this.campeonesPosiblesSegunBusqueda = [];
     this.intentos = 0;
@@ -1940,7 +1961,7 @@ export class LolWordleGameComponent implements OnInit {
   }
 
   /**
-   * DEV MODE
+   * -------------------------------------- DEV MODE --------------------------------------
    */
 
   encodePuntuacionTotalValue(value: number): string {
