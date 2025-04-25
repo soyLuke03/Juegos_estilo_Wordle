@@ -15,7 +15,7 @@
     <button *ngIf="partidaAcabada" (click)="reiniciarPartida()">
       Nueva partida
     </button>
-    <select [(ngModel)]="dificultad" [disabled]="isJugadorJugando()">
+    <select class="dificultad" [(ngModel)]="dificultad" [disabled]="isJugadorJugando()">
       <option>Fácil</option>
       <option>Medio</option>
       <option>Difícil</option>

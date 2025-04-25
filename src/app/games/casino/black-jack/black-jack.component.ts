@@ -13,7 +13,7 @@ import { CasinoService } from '../../../services/casino.service';
 @Component({
   selector: 'app-black-jack',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, PuntosComponent],
+  imports: [CommonModule, FormsModule, PuntosComponent],
   templateUrl: './black-jack.component.html',
   styleUrl: './black-jack.component.css',
 })
