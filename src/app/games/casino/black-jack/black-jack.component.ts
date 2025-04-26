@@ -39,6 +39,9 @@ export class BlackJackComponent implements OnInit {
 
   partidaAcabada: boolean = false;
 
+  cantidadDeAsesJugador: number = 0;
+  cantidadDeAsesIA: number = 0;
+
   private obtenerCarta(): Carta {
     const palos = Object.values(Palo);
     const valores = Object.values(Valor);
@@ -231,10 +234,37 @@ export class BlackJackComponent implements OnInit {
   }
 
   private obtenerPuntosDeLaCarta(carta: Carta, esJugador: boolean) {
+    const puntosCarta = this.obtenerValor(carta.valor);
+
     if (esJugador) {
-      this.totalPuntosJugadorManoActual += this.obtenerValor(carta.valor);
+      this.totalPuntosJugadorManoActual += puntosCarta;
+      if (carta.valor === Valor.As) {
+        this.cantidadDeAsesJugador++;
+      }
+      this.ajustarAses(true);
     } else {
-      this.totalPuntosIAManoActual += this.obtenerValor(carta.valor);
+      this.totalPuntosIAManoActual += puntosCarta;
+      if (carta.valor === Valor.As) {
+        this.cantidadDeAsesIA++;
+      }
+      this.ajustarAses(false);
+    }
+  }
+
+  private ajustarAses(esJugador: boolean) {
+    if (esJugador) {
+      while (
+        this.totalPuntosJugadorManoActual > 21 &&
+        this.cantidadDeAsesJugador > 0
+      ) {
+        this.totalPuntosJugadorManoActual -= 10;
+        this.cantidadDeAsesJugador--;
+      }
+    } else {
+      while (this.totalPuntosIAManoActual > 21 && this.cantidadDeAsesIA > 0) {
+        this.totalPuntosIAManoActual -= 10;
+        this.cantidadDeAsesIA--;
+      }
     }
   }
 
@@ -317,27 +347,56 @@ export class BlackJackComponent implements OnInit {
         ) {
           carta = this.obtenerCarta();
           const puntosCarta = this.obtenerValor(carta.valor);
-          if (this.totalPuntosIAManoActual + puntosCarta <= 21) {
-            this.cartasIA.unshift(carta);
-            this.obtenerPuntosDeLaCarta(carta, false);
-            this.comprobarSiManoSePasa(false);
+
+          if (carta.valor === Valor.As) {
+            if (this.totalPuntosIAManoActual + 11 <= 21) {
+              this.cartasIA.unshift(carta);
+              this.totalPuntosIAManoActual += 11;
+            } else {
+              this.cartasIA.unshift(carta);
+              this.totalPuntosIAManoActual += 1;
+            }
           } else {
+            if (this.totalPuntosIAManoActual + puntosCarta <= 21) {
+              this.cartasIA.unshift(carta);
+              this.obtenerPuntosDeLaCarta(carta, false);
+            }
+          }
+
+          this.comprobarSiManoSePasa(false);
+          if (
+            this.totalPuntosIAManoActual >= this.totalPuntosJugadorManoActual ||
+            this.totalPuntosIAManoActual === 21
+          ) {
             break;
           }
         }
         break;
-  
+
       case Dificultad.Imposible:
-        // Impossible difficulty: always wins with exactly 21 points
+        // Impossible difficulty: always tries to reach exactly 21 points, no matter the risk
         while (this.totalPuntosIAManoActual < 21) {
           carta = this.obtenerCarta();
           const puntosCarta = this.obtenerValor(carta.valor);
-          if (this.totalPuntosIAManoActual + puntosCarta > 21) {
-            // If adding the new card would make the IA go over 21, don't add it
-            continue;
+
+          if (carta.valor === Valor.As) {
+            if (this.totalPuntosIAManoActual + 11 <= 21) {
+              this.cartasIA.unshift(carta);
+              this.obtenerPuntosDeLaCarta(carta, false);
+            } else {
+              this.cartasIA.unshift(carta);
+              this.totalPuntosIAManoActual += 1;
+            }
+          } else {
+            if (this.totalPuntosIAManoActual + puntosCarta <= 21) {
+              this.cartasIA.unshift(carta);
+              this.obtenerPuntosDeLaCarta(carta, false);
+            }
           }
-          this.cartasIA.unshift(carta);
-          this.obtenerPuntosDeLaCarta(carta, false);
+          this.comprobarSiManoSePasa(false);
+          if (this.totalPuntosIAManoActual === 21) {
+            break;
+          }
         }
         break;
     }
@@ -350,6 +409,8 @@ export class BlackJackComponent implements OnInit {
     this.partidaAcabada = false;
     this.totalPuntosIAManoActual = 0;
     this.totalPuntosJugadorManoActual = 0;
+    this.cantidadDeAsesJugador = 0;
+    this.cantidadDeAsesIA = 0;
     this.cartasIA = [];
     this.cartasJugador = [];
   }
