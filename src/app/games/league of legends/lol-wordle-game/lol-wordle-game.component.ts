@@ -12,14 +12,13 @@ import { Region } from '../../../models/modelos-lol-wordle/Region.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
-import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule, FormsModule, PuntosComponent, RouterLink],
+  imports: [CommonModule,ReactiveFormsModule, FormsModule, PuntosComponent],
   templateUrl: './lol-wordle-game.html',
   styleUrl: './lol-wordle-game.css',
 })
