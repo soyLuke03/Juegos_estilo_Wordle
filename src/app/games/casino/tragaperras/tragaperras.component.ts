@@ -18,12 +18,21 @@ export class TragaperrasComponent implements OnInit {
 
   puntuacionTotal: number = this.casino.getPuntuacionTotal();
   columnas: string[][] = [
-    ['B', 'A', 'S', 'A', 'D'],
-    ['A', 'B', 'A', 'A', 'D'],
-    ['A', 'S', 'B', 'A', 'D'],
-    ['A', 'S', 'B', 'A', 'D'],
-    ['A', 'B', 'A', 'A', 'D'],
+    ['B', 'C', 'Ñ', '☆', 'V', '☆', 'G', 'I', 'P', 'R', '☆', 'Q', 'O', 'T', '☆', 'X', 'J', 'A', 'M', 'S', '☆', 'Y', '☆', 'K', '☆'],
+    ['☆', 'F', 'P', '☆', 'N', 'T', 'J', 'S', 'M', '☆', 'V', 'A', 'G', 'Q', 'B', 'Ñ', 'K', 'O', 'Y', 'H', 'Z', 'I', 'E', '☆', 'R'],
+    ['Q', 'Ñ', 'B', '☆', 'M', '☆', 'T', '☆', 'G', 'S', 'H', 'Y', 'K', 'R', 'C', 'X', 'F', 'O', 'I', 'P', 'Z', 'V', '☆', 'L', 'J'],
+    ['J', 'P', 'B', 'M', 'T', 'C', 'O', '☆', 'Ñ', 'K', '☆', 'Q', 'V', 'Z', 'F', 'S', 'L', 'Y', 'E', 'X', 'R', 'G', 'A', '☆', 'W'],
+    ['R', 'Q', 'B', 'O', 'Ñ', 'V', 'G', 'E', 'X', '☆', 'A', 'K', 'S', 'L', '☆', 'J', 'Z', 'F', 'P', 'I', 'M', 'Y', 'T', 'C', '☆'],
   ];
+  
+
+  // columnas: string[][] = [
+  //   ['B', 'A', 'S', 'A', 'D'],
+  //   ['A', 'B', 'A', 'A', 'D'],
+  //   ['A', 'S', 'B', 'A', 'D'],
+  //   ['A', 'S', 'B', 'A', 'D'],
+  //   ['A', 'B', 'A', 'A', 'D'],
+  // ];
 
   palancaActivada: boolean = false;
   timers: number = 15000;
