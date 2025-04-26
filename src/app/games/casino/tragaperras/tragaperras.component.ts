@@ -48,9 +48,9 @@ export class TragaperrasComponent implements OnInit {
   BonusXCentro: number = 100;
   BonusXDiagonal: number = 50;
 
-  MultiplicadorXCentro: number = 5;
-  MultiplicadorXDiagonal: number = 3;
-  MultiplicadorXPremioTotal: number = 25;
+  MultiplicadorXCentro: number = 100;
+  MultiplicadorXDiagonal: number = 75;
+  MultiplicadorXPremioTotal: number = 5000;
 
   ngOnInit(): void {}
 

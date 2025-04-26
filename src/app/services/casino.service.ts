@@ -121,7 +121,7 @@ export class CasinoService {
     const puntuacionCodificada = this.encodePuntuacionTotalValue(
       this.puntuacionTotal
     );
-    document.cookie = `blackjack-puntos=${puntuacionCodificada}; expires=${fechaExpiracion.toUTCString()}; path=/`;
+    document.cookie = `casino-puntos=${puntuacionCodificada}; expires=${fechaExpiracion.toUTCString()}; path=/`;
   }
 
   recogerPuntuacionCookies(): void {
@@ -130,7 +130,7 @@ export class CasinoService {
     for (const cookie of cookies) {
       const [name, value] = cookie.split('=');
 
-      if (name.trim() === 'blackjack-puntos') {
+      if (name.trim() === 'casino-puntos') {
         let puntuacionDescodificada = this.decodePuntuacionTotalValue(value);
         if (!puntuacionDescodificada) {
           puntuacionDescodificada = 0;
