@@ -23,10 +23,17 @@
       <option>Imposible</option>
     </select>
   </div>
-  <div class="mano-jugador">
-    <span *ngFor="let carta of cartasJugador" class="carta"
-      ><img [src]="carta.imagen"
-    /></span>
+  <div class="manos">
+    <div class="mano-jugador">
+      <span *ngFor="let carta of cartasJugador" class="carta"
+        ><img [src]="carta.imagen"
+      /></span>
+    </div>
+    <div class="mano-ia">
+      <span *ngFor="let carta of cartasIA" class="carta"
+        ><img [src]="carta.imagen"
+      /></span>
+    </div>
   </div>
   <div class="container-puntos">
     <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
