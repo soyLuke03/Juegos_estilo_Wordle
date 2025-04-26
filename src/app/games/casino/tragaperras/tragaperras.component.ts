@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PuntosComponent } from '../../../componentes/puntos/puntos.component';
 import { CasinoService } from '../../../services/casino.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tragaperras',
@@ -16,49 +17,35 @@ export class TragaperrasComponent implements OnInit {
   constructor(private router: Router, private casino: CasinoService) {}
 
   puntuacionTotal: number = this.casino.getPuntuacionTotal();
-  columna1: string[] = ['☆', '☆', 'A', 'S', 'D'];
-  columna2: string[] = ['☆', '☆', 'A', 'S', 'D'];
-  columna3: string[] = ['☆', '☆', 'A', 'S', 'D'];
-  columna4: string[] = ['☆', '☆', 'A', 'S', 'D'];
-  columna5: string[] = ['☆', '☆', 'A', 'S', 'D'];
-  // columna1: string[] = ['B','C','Ñ','V','U','G','I','P','R','H','Q','O','T','☆','X','J','A','M','S','Z','☆','Y','F','K','☆','L','E',];
-  // columna2: string[] = ['X','F','P','N','T','J','S','M','L','☆','V','A','G','Q','B','Ñ','K','O','Y','H','Z','I','☆','E','C','R','U',];
-  // columna3: string[] = ['Q','Ñ','B','A','M','T','☆','G','S','H','Y','K','R','C','X','F','O','I','P','Z','V','E','L','☆','U','J','W',];
-  // columna4: string[] = ['J','P','B','M','T','C','O','☆','Ñ','K','Q','V','Z','F','S','L','Y','E','X','R','G','A','☆','W','I','U','H',];
-  // columna5: string[] = ['R','Q','B','O','Ñ','V','G','E','X','☆','A','K','S','L','J','Z','F','P','I','M','Y','T','C','U','H','W','☆',];
+  columnas: string[][] = [
+    ['B', 'A', 'S', 'A', 'D'],
+    ['A', 'B', 'A', 'A', 'D'],
+    ['A', 'S', 'B', 'A', 'D'],
+    ['A', 'S', 'B', 'A', 'D'],
+    ['A', 'B', 'A', 'A', 'D'],
+  ];
 
   palancaActivada: boolean = false;
+  timers: number = 15000;
 
-  offsets: number[] = [0, 0, 0, 0, 0];
+  // Base de puntos que el usuario define
+  puntosBaseUsuario: number = 50;
+
+  // Bonificaciones
+  MultiplicarBonus: boolean = true;
+
+  BonusXCentro: number = 100;
+  BonusXDiagonal: number = 50;
+
+  MultiplicadorXCentro: number = 5;
+  MultiplicadorXDiagonal: number = 3;
+  MultiplicadorXPremioTotal: number = 25;
 
   ngOnInit(): void {}
 
-  private _spinLetras(columna: number) {
-    let arrayRef: string[];
-
-    switch (columna) {
-      case 1:
-        arrayRef = this.columna1;
-        this.girarColumna(arrayRef);
-        break;
-      case 2:
-        arrayRef = this.columna2;
-        this.girarColumna(arrayRef);
-        break;
-      case 3:
-        arrayRef = this.columna3;
-        this.girarColumna(arrayRef);
-        break;
-      case 4:
-        arrayRef = this.columna4;
-        this.girarColumna(arrayRef);
-        break;
-      case 5:
-        arrayRef = this.columna5;
-        this.girarColumna(arrayRef);
-        break;
-      default:
-        return;
+  private _spinLetras() {
+    for (let i = 0; i < this.columnas.length; i++) {
+      this.girarColumna(this.columnas[i]);
     }
   }
 
@@ -70,11 +57,11 @@ export class TragaperrasComponent implements OnInit {
     }
   }
 
-  private girarColumnaConAnimacion(columna: number, onFinish: () => void) {
+  private girarColumnaConAnimacion(onFinish: () => void) {
     let girosRestantes = Math.floor(Math.random() * 20) + 10;
 
     const intervalo = setInterval(() => {
-      this._spinLetras(columna);
+      this._spinLetras();
 
       girosRestantes--;
 
@@ -86,94 +73,160 @@ export class TragaperrasComponent implements OnInit {
   }
 
   private comprobarPartida() {
-    const lineaCentral = [
-      this.columna1[2],
-      this.columna2[2],
-      this.columna3[2],
-      this.columna4[2],
-      this.columna5[2],
+    const victorias: {
+      tipo: string;
+      puntosGanados: number;
+      descripcionBonus: string;
+    }[] = [];
+
+    let totalPuntos = 0;
+    let ganoEnTodasLasFormas = true;
+    let multiplicadorAplicado = false; // Variable para saber si se aplicó el multiplicador adicional
+
+    const lineas = [
+      { tipo: 'Línea central', indices: [2, 2, 2, 2, 2], bonus: this.BonusXCentro, multiplicador: this.MultiplicadorXCentro },
+      { tipo: 'Diagonal principal', indices: [0, 1, 2, 3, 4], bonus: this.BonusXDiagonal, multiplicador: this.MultiplicadorXDiagonal },
+      { tipo: 'Diagonal secundaria', indices: [4, 3, 2, 1, 0], bonus: this.BonusXDiagonal, multiplicador: this.MultiplicadorXDiagonal },
     ];
 
-    console.log(lineaCentral);
-    if (this.comprobarIguales(lineaCentral)) {
-      console.log('¡Línea central ganadora!');
-      return true;
+    lineas.forEach(linea => {
+      const letras = linea.indices.map((filaIndex, columnaIndex) => this.columnas[columnaIndex][filaIndex]);
+      
+      if (this.comprobarIguales(letras)) {
+        let puntos = this.puntosBaseUsuario;
+
+        if (this.MultiplicarBonus) {
+          puntos *= linea.multiplicador;
+          victorias.push({
+            tipo: linea.tipo,
+            puntosGanados: puntos,
+            descripcionBonus: `x${linea.multiplicador}`,
+          });
+        } else {
+          puntos += linea.bonus;
+          victorias.push({
+            tipo: linea.tipo,
+            puntosGanados: puntos,
+            descripcionBonus: `+${linea.bonus}`,
+          });
+        }
+
+        totalPuntos += puntos;
+      } else {
+        ganoEnTodasLasFormas = false;
+      }
+    });
+
+    // Si se ha ganado en todas las formas, aplicar el multiplicador adicional
+    if (ganoEnTodasLasFormas) {
+      totalPuntos *= this.MultiplicadorXPremioTotal;
+      multiplicadorAplicado = true; // Marcamos que se ha aplicado el multiplicador
     }
 
-    const diagonal1 = [
-      this.columna1[0],
-      this.columna2[1],
-      this.columna3[2],
-      this.columna4[3],
-      this.columna5[4],
-    ];
-
-    const diagonal2 = [
-      this.columna1[4],
-      this.columna2[3],
-      this.columna3[2],
-      this.columna4[1],
-      this.columna5[0],
-    ];
-
-    console.log(diagonal1);
-    if (this.comprobarIguales(diagonal1)) {
-      console.log('¡Diagonal ganadora! (de arriba a abajo)');
+    if (victorias.length > 0) {
+      this.casino.addPuntos(totalPuntos, true);
+      this.mostrarMensajeVictoria(victorias, totalPuntos, multiplicadorAplicado);
       return true;
     }
-
-    console.log(diagonal2);
-    if (this.comprobarIguales(diagonal2)) {
-      console.log('¡Diagonal ganadora! (de abajo a arriba)');
-      return true;
-    }
-
+    
+    this.mostrarMensajeDerrota();
     return false;
+  }
+
+  private mostrarMensajeVictoria(victorias: { tipo: string; puntosGanados: number; descripcionBonus: string }[], totalPuntos: number, multiplicadorAplicado: boolean) {
+    Swal.fire({
+      html: this.crearMensajeVictoria(victorias, totalPuntos, multiplicadorAplicado),
+      timer: this.timers,
+      timerProgressBar: true,
+      toast: true,
+      position: 'top-right'
+    });
+  }
+
+  private mostrarMensajeDerrota() {
+    Swal.fire({
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; text-align: center;">
+          <h3 style="color: #d32f2f;">¡Has perdido!</h3>
+          <p style="font-size: 1.2em;">¡Sigue intentando, la próxima será tuya!</p>
+          <div style="font-size: 2em; margin-top: 10px;">💔</div>
+        </div>
+      `,
+      timer: this.timers,
+      timerProgressBar: true,
+      toast: true,
+      position: 'top-right'
+    });
+  }
+
+  private crearMensajeVictoria(victorias: { tipo: string; puntosGanados: number; descripcionBonus: string }[], totalPuntos: number, multiplicadorAplicado: boolean) {
+    let mensaje = '<div style="font-family: Arial, sans-serif; color: #333;">';
+    let totalVictorias = 0;
+  
+    // Encabezado
+    mensaje += `<h3 style="text-align: center; color: #4CAF50;">¡Has ganado!</h3>`;
+  
+    victorias.forEach(v => {
+      mensaje += `
+        <div style="margin-bottom: 10px;">
+          <strong>Victoria: ${v.tipo}</strong><br>
+          <span style="color: #888;">Bonus aplicado: <strong>${v.descripcionBonus}</strong></span><br>
+          <span style="font-size: 1.2em; color: #2196F3;">Puntos ganados: ${v.puntosGanados}</span><br>
+        </div>
+      `;
+      totalVictorias += v.puntosGanados;
+    });
+  
+    // Total de victorias
+    mensaje += `
+      <div style="margin-top: 20px; font-size: 1.3em; font-weight: bold;">
+        <span>Total de victorias: ${totalVictorias} puntos</span>
+      </div><br>
+    `;
+  
+    // Mensaje de multiplicador
+    if (multiplicadorAplicado) {
+      const totalConMultiplicador = totalVictorias * this.MultiplicadorXPremioTotal;
+      mensaje += `
+        <div style="background-color: #FFEB3B; padding: 15px; border-radius: 5px; margin-top: 20px; color: #4CAF50;">
+          <strong>¡Multiplicador aplicado!</strong><br>
+          <span style="font-size: 1.2em; color: #d32f2f;">Multiplicador total: x${this.MultiplicadorXPremioTotal}</span><br>
+          <strong style="font-size: 1.5em;">Total final: ${totalConMultiplicador} puntos</strong>
+        </div>
+      `;
+    } else {
+      mensaje += `
+        <div style="margin-top: 20px; font-size: 1.2em; font-weight: bold; color: #333;">
+          <strong>Total ganado: ${totalVictorias} puntos</strong>
+        </div>
+      `;
+    }
+  
+    mensaje += '</div>'; // Cerrar el div principal
+  
+    return mensaje;
   }
 
   comprobarIguales(letras: string[]): boolean {
     const letraReferencia = letras.find(letra => letra !== '☆');
-  
+
     if (!letraReferencia) {
       return true;
     }
-  
+
     return letras.every(letra => letra === letraReferencia || letra === '☆');
   }
 
   getColumnaVisible(columna: number): string[] {
-    switch (columna) {
-      case 1:
-        return this.columna1.slice(0, 5);
-      case 2:
-        return this.columna2.slice(0, 5);
-      case 3:
-        return this.columna3.slice(0, 5);
-      case 4:
-        return this.columna4.slice(0, 5);
-      case 5:
-        return this.columna5.slice(0, 5);
-      default:
-        return [];
-    }
+    return this.columnas[columna - 1].slice(0, 5);
   }
 
   girarTragaperras() {
-    let columnasTerminadas = 0;
-
-    for (let columna = 1; columna <= 5; columna++) {
-      this.girarColumnaConAnimacion(columna, () => {
-        columnasTerminadas++;
-        if (columnasTerminadas === 5) {
-          this.palancaActivada = false;
-          if (this.comprobarPartida()) {
-            console.log('¡Has ganado!');
-          } else {
-            console.log('¡Has perdido!');
-          }
-        }
-      });
-    }
+    this.palancaActivada = true;
+    this.girarColumnaConAnimacion(() => {
+      this.palancaActivada = false;
+      this.comprobarPartida();
+    });
   }
 
   returnHome(): void {
