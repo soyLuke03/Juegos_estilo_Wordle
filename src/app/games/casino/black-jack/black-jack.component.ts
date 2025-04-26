@@ -24,7 +24,6 @@ export class BlackJackComponent implements OnInit {
   puntuacionTotal: number = this.casino.getPuntuacionTotal();
   timers: number = 1500;
 
-
   ngOnInit(): void {}
 
   totalPuntosJugadorManoActual: number = 0;
@@ -79,36 +78,36 @@ export class BlackJackComponent implements OnInit {
 
   private ganarPartida() {
     this.obtenerPuntos(1);
-      Swal.fire({
-        title: "Has ganado",
-        icon: "success",
-        timer: this.timers,
-        timerProgressBar: true
-      });
+    Swal.fire({
+      title: 'Has ganado',
+      icon: 'success',
+      timer: this.timers,
+      timerProgressBar: true,
+    });
   }
 
   private perderPartida() {
     this.obtenerPuntos(-1);
     Swal.fire({
-      title: "Has perdido",
-      icon: "error",
+      title: 'Has perdido',
+      icon: 'error',
       timer: this.timers,
-      timerProgressBar: true
+      timerProgressBar: true,
     });
   }
 
   private empatarPartida() {
     this.obtenerPuntos(0);
     Swal.fire({
-      title: "Empate",
-      icon: "info",
+      title: 'Empate',
+      icon: 'info',
       timer: this.timers,
-      timerProgressBar: true
+      timerProgressBar: true,
     });
   }
 
   private comprobarPartida() {
-    if(!this.partidaAcabada) {
+    if (!this.partidaAcabada) {
       if (
         this.totalPuntosIAManoActual == this.totalPuntosJugadorManoActual &&
         this.totalPuntosJugadorManoActual < 21 &&
@@ -312,7 +311,6 @@ export class BlackJackComponent implements OnInit {
         break;
 
       case Dificultad.Insano:
-        // Insane difficulty: always draws cards until its total points are greater than the player's total points and less than or equal to 21
         while (
           this.totalPuntosIAManoActual < this.totalPuntosJugadorManoActual &&
           this.totalPuntosIAManoActual <= 21
@@ -328,7 +326,7 @@ export class BlackJackComponent implements OnInit {
           }
         }
         break;
-
+  
       case Dificultad.Imposible:
         // Impossible difficulty: always wins with exactly 21 points
         while (this.totalPuntosIAManoActual < 21) {
