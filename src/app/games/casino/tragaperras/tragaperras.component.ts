@@ -250,11 +250,12 @@ export class TragaperrasComponent implements OnInit {
   }
 
   girarTragaperras(e: Event): void {
-    if (!this.apuestaValida || this.puntuacionTotal == 0) {
+    if (!this.apuestaValida || this.puntuacionTotal == 0 || this.apuestaJugador > this.puntuacionTotal || !this.apuestaConfirmada) {
       alert('Por favor, confirma una apuesta válida antes de girar.');
+      e.preventDefault()
       return;
     }
-    
+
     
     this.palancaActivada = true;
     this.cobrarApuesta();
