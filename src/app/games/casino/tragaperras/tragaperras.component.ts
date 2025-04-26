@@ -29,7 +29,9 @@ export class TragaperrasComponent implements OnInit {
   timers: number = 15000;
 
   // Base de puntos que el usuario define
-  puntosBaseUsuario: number = 50;
+  apuestaJugador: number = 0;
+  apuestaValida: boolean = false;
+  apuestaConfirmada: boolean = false;
 
   // Bonificaciones
   MultiplicarBonus: boolean = true;
@@ -43,7 +45,7 @@ export class TragaperrasComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  private _spinLetras() {
+  private spinLetras() {
     for (let i = 0; i < this.columnas.length; i++) {
       this.girarColumna(this.columnas[i]);
     }
@@ -61,7 +63,7 @@ export class TragaperrasComponent implements OnInit {
     let girosRestantes = Math.floor(Math.random() * 20) + 10;
 
     const intervalo = setInterval(() => {
-      this._spinLetras();
+      this.spinLetras();
 
       girosRestantes--;
 
@@ -93,7 +95,7 @@ export class TragaperrasComponent implements OnInit {
       const letras = linea.indices.map((filaIndex, columnaIndex) => this.columnas[columnaIndex][filaIndex]);
       
       if (this.comprobarIguales(letras)) {
-        let puntos = this.puntosBaseUsuario;
+        let puntos = this.apuestaJugador;
 
         if (this.MultiplicarBonus) {
           puntos *= linea.multiplicador;
@@ -117,14 +119,14 @@ export class TragaperrasComponent implements OnInit {
       }
     });
 
-    // Si se ha ganado en todas las formas, aplicar el multiplicador adicional
     if (ganoEnTodasLasFormas) {
       totalPuntos *= this.MultiplicadorXPremioTotal;
-      multiplicadorAplicado = true; // Marcamos que se ha aplicado el multiplicador
+      multiplicadorAplicado = true;
     }
 
     if (victorias.length > 0) {
       this.casino.addPuntos(totalPuntos, true);
+      this.puntuacionTotal = this.casino.getPuntuacionTotal();
       this.mostrarMensajeVictoria(victorias, totalPuntos, multiplicadorAplicado);
       return true;
     }
@@ -206,6 +208,32 @@ export class TragaperrasComponent implements OnInit {
   
     return mensaje;
   }
+  
+  private cobrarApuesta() {
+    this.casino.addPuntos(this.apuestaJugador, false);
+    this.puntuacionTotal = this.casino.getPuntuacionTotal();
+  }
+
+  confirmarApuesta() {
+    if (this.apuestaValida) {
+      console.log('Apuesta confirmada: ' + this.apuestaJugador);
+      this.apuestaConfirmada = true;  // Desactivamos el botón después de confirmar
+    } else {
+      alert('La apuesta debe ser mayor que 0 y no puede superar tus puntos disponibles.');
+    }
+  }
+
+  validarApuesta() {
+    if (this.apuestaJugador < 1 || this.apuestaJugador > this.puntuacionTotal) {
+      this.apuestaValida = false;
+    } else {
+      this.apuestaValida = true;
+    }
+
+    if (this.apuestaConfirmada && this.apuestaValida) {
+      this.apuestaConfirmada = false;
+    }
+  }
 
   comprobarIguales(letras: string[]): boolean {
     const letraReferencia = letras.find(letra => letra !== '☆');
@@ -221,13 +249,21 @@ export class TragaperrasComponent implements OnInit {
     return this.columnas[columna - 1].slice(0, 5);
   }
 
-  girarTragaperras() {
+  girarTragaperras(e: Event): void {
+    if (!this.apuestaValida || this.puntuacionTotal == 0) {
+      alert('Por favor, confirma una apuesta válida antes de girar.');
+      return;
+    }
+    
+    
     this.palancaActivada = true;
+    this.cobrarApuesta();
     this.girarColumnaConAnimacion(() => {
       this.palancaActivada = false;
       this.comprobarPartida();
     });
   }
+
 
   returnHome(): void {
     this.router.navigate(['/home']);

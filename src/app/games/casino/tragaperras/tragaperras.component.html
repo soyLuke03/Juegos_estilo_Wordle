@@ -1,5 +1,4 @@
 <div class="controles">
-  <button (click)="girarTragaperras()">Girar</button>
   <button (click)="returnHome()">Volver a HOME</button>
 </div>
 
@@ -7,27 +6,50 @@
   <div class="container-puntos">
     <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
   </div>
+  <div class="container-apuesta">
+    <label for="apuesta">Introduce tu apuesta:</label>
+    <input 
+      id="apuesta" 
+      type="number" 
+      [max]="puntuacionTotal" 
+      min="1" 
+      [(ngModel)]="apuestaJugador" 
+      (ngModelChange)="validarApuesta()" 
+    />
+    <button 
+      class="confirm-bet"
+      (click)="confirmarApuesta()" 
+      [disabled]="apuestaConfirmada || !apuestaValida">
+      Confirmar Apuesta
+    </button>
+  </div>
+</div>
 
-  <div class="tragaperras-grid">
-    <div class="tragaperras-column" *ngFor="let columnaIndex of [1,2,3,4,5]; let i = index">
-      <div 
-        class="tragaperras-item" 
-        *ngFor="let letra of getColumnaVisible(columnaIndex); let j = index" 
-        [class.spin]="j === 2"
-      >
-        {{ letra }}
-      </div>
+<div class="tragaperras-grid">
+  <div
+    class="tragaperras-column"
+    *ngFor="let columnaIndex of [1, 2, 3, 4, 5]; let i = index"
+  >
+    <div
+      class="tragaperras-item"
+      *ngFor="let letra of getColumnaVisible(columnaIndex); let j = index"
+      [class.spin]="j === 2"
+    >
+      {{ letra }}
     </div>
+  </div>
 
-    <div class="palanca">
-      <input 
-        type="checkbox" 
-        [(ngModel)]="palancaActivada" 
-        [disabled]="palancaActivada" 
-        name="Palanca" 
-        value="Palanca" 
-        (click)="girarTragaperras()"
-      >
-    </div>
+  <div class="palanca">
+    <label class="switch">
+      <input
+        type="checkbox"
+        [(ngModel)]="palancaActivada"
+        [disabled]="palancaActivada || !apuestaConfirmada"
+        (click)="girarTragaperras($event)"
+      />
+      <span class="lever">
+        <span class="lever-text">Tirar</span>
+      </span>
+    </label>
   </div>
 </div>
