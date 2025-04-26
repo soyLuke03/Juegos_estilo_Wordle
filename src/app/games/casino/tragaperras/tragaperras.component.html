@@ -8,10 +8,35 @@
     <app-puntos [puntuacionTotal]="puntuacionTotal"></app-puntos>
   </div>
   <div class="tragaperras-grid">
-    <div *ngFor="let row of tragaperras; let j = index" class="column">
-      <div *ngFor="let cell of row; let i = index" class="cell">
-        <span class="letter" [class.spin]="spinState === 'active'">{{ cell | uppercase }}</span>
+    <div class="tragaperras-column">
+      <div class="tragaperras-item" *ngFor="let letra of columna1; let i = index" [class.spin]="i === 2">
+        {{ letra }}
       </div>
     </div>
+    <div class="tragaperras-column">
+      <div class="tragaperras-item" *ngFor="let letra of columna2; let i = index" [class.spin]="i === 2">
+        {{ letra }}
+      </div>
+    </div>
+    <div class="tragaperras-column">
+      <div class="tragaperras-item" *ngFor="let letra of columna3; let i = index" [class.spin]="i === 2">
+        {{ letra }}
+      </div>
+    </div>
+    <div class="tragaperras-column">
+      <div class="tragaperras-item" *ngFor="let letra of columna4; let i = index" [class.spin]="i === 2">
+        {{ letra }}
+      </div>
+    </div>
+    <div class="tragaperras-column">
+      <div class="tragaperras-item" *ngFor="let letra of columna5; let i = index" [class.spin]="i === 2">
+        {{ letra }}
+      </div>
+    </div>
+
+    <div class="palanca">
+      <input type="checkbox" [(ngModel)]="palancaActivada" [disabled]="palancaActivada" name="Palanca" value="Palanca" (click)="girarTragaperras()">
+    </div>
+
   </div>
 </div>

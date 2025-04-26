@@ -1,33 +1,33 @@
 .tragaperras-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
-  }
-  
-  .cell {
-    background-color: #ccc;
-    padding: 20px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .letter {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .letter.spin {
-    animation: fadeInDown 1s forwards;
-  }
-  
-  @keyframes fadeInDown {
-    0% {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tragaperras-column {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  border: 5px black ridge;
+}
+
+.tragaperras-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  height: 80px;
+  width: 80px;
+  border: 2px solid #333;
+  background-color: #fafafa;
+  border-radius: 8px;
+  margin: 4px;
+}
+
+.tragaperras-item.spin {
+  transform: scale(1.2); /* Zoom solo en el item central */
+}
+
+.palanca {
+  transform: scale(3);
+}

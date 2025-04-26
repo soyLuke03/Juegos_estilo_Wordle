@@ -10,91 +10,93 @@ import { CasinoService } from '../../../services/casino.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, PuntosComponent],
   templateUrl: './tragaperras.component.html',
-  styleUrl: './tragaperras.component.css'
+  styleUrl: './tragaperras.component.css',
 })
 export class TragaperrasComponent implements OnInit {
   constructor(private router: Router, private casino: CasinoService) {}
 
-  tragaperras: string[][] = Array.from({ length: 5 }, () => Array(5).fill('')); // Initialize with 5 rows
   puntuacionTotal: number = this.casino.getPuntuacionTotal();
   spinState: string = 'inactive';
+  columna1: string[] = ['A', 'B', 'C', 'D', 'E'];
+  columna2: string[] = ['F', 'G', 'H', 'I', 'J'];
+  columna3: string[] = ['K', 'L', 'M', 'N', 'Ñ'];
+  columna4: string[] = ['O', 'P', 'Q', 'R', 'S'];
+  columna5: string[] = ['T', 'U', 'V', 'W', 'X'];
 
-  ngOnInit(): void {
-    this.initTragaperras();
-  }
+  palancaActivada: boolean = false;
 
-  initTragaperras(): void {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    this.tragaperras = Array.from({ length: 5 }, () => Array(5).fill(''));
-  
-    for (let j = 0; j < 5; j++) {
-      for (let i = 0; i < 5; i++) {
-        const randomLetter = letters[Math.floor(Math.random() * letters.length)];
-        this.tragaperras[i][j] = String.fromCharCode(randomLetter.charCodeAt(0) + i);
-      }
+  offsets: number[] = [0, 0, 0, 0, 0];
+
+  ngOnInit(): void {}
+
+  private _spinLetras(columna: number) {
+    let arrayRef: string[];
+
+    switch (columna) {
+      case 1:
+        arrayRef = this.columna1;
+        this.girarColumna(arrayRef);
+        break;
+      case 2:
+        arrayRef = this.columna2;
+        this.girarColumna(arrayRef);
+        break;
+      case 3:
+        arrayRef = this.columna3;
+        this.girarColumna(arrayRef);
+        break;
+      case 4:
+        arrayRef = this.columna4;
+        this.girarColumna(arrayRef);
+        break;
+      case 5:
+        arrayRef = this.columna5;
+        this.girarColumna(arrayRef);
+        break;
+      default:
+        return;
     }
   }
 
-  girarTragaperras(): void {
-    this.spinState = 'active';
-    const numShifts = Math.floor(Math.random() * 4) + 1; // Randomly select 1 to 4 shifts
-    let shiftCount = 0;
+  private girarColumna(arrayRef: string[]) {
+    const numeroDeGiros: number = Math.floor(Math.random() * 10);
+    for (let giros: number = 0; giros < numeroDeGiros; giros++) {
+      const last = arrayRef.pop();
+      arrayRef.unshift(last!);
+    }
+  }
+
+  girarTragaperras() {
+    let columnasTerminadas = 0;
   
-    const shiftLetters = () => {
-      for (let i = 0; i < 5; i++) {
-        const newRow = [];
-        for (let j = 0; j < 5; j++) {
-          const newIndex = (j + 1) % 5; // Shift down by one position, wrapping around to the start of the row
-          newRow.push(this.tragaperras[i][newIndex]);
+    for (let columna = 1; columna <= 5; columna++) {
+      this.girarColumnaConAnimacion(columna, () => {
+        columnasTerminadas++;
+        if (columnasTerminadas === 5) {
+          this.palancaActivada = false;
         }
-        this.tragaperras[i] = newRow;
-      }
-      shiftCount++;
-      if (shiftCount < numShifts) {
-        setTimeout(shiftLetters, 700); // Repeat the shift after 700ms
-      } else {
-        this.spinState = 'inactive'; // Reset spinState after all shifts
-      }
-    };
-  
-    shiftLetters(); // Start the shifting process
+      });
+    }
   }
   
-  generateRandomLetter(): string {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return String.fromCharCode(Math.floor(Math.random() * letters.length) + 65);
+  private girarColumnaConAnimacion(columna: number, onFinish: () => void) {
+    let girosRestantes = Math.floor(Math.random() * 20) + 10;
+  
+    const intervalo = setInterval(() => {
+      this._spinLetras(columna);
+  
+      girosRestantes--;
+  
+      if (girosRestantes <= 0) {
+        clearInterval(intervalo);
+        onFinish();
+      }
+    }, 100);
   }
 
-  verificarGanador(): void {
-    // Verificar filas horizontales
-    for (let i = 0; i < 5; i++) {
-      const fila = this.tragaperras[i];
-      if (this.isEqual(fila)) {
-        console.log(`Ganador! Fila horizontal ${i + 1}`);
-        return;
-      }
-    }
-
-    // Verificar columnas verticales
-    for (let i = 0; i < 5; i++) {
-      const columna = this.tragaperras.map(row => row[i]);
-      if (this.isEqual(columna)) {
-        console.log(`Ganador! Columna vertical ${i + 1}`);
-        return;
-      }
-    }
-
-    // Verificar diagonales
-    const diagonal1 = [this.tragaperras[0][0], this.tragaperras[1][1], this.tragaperras[2][2], this.tragaperras[3][3], this.tragaperras[4][4]];
-    const diagonal2 = [this.tragaperras[0][4], this.tragaperras[1][3], this.tragaperras[2][2], this.tragaperras[3][1], this.tragaperras[4][0]];
-    if (this.isEqual(diagonal1) || this.isEqual(diagonal2)) {
-      console.log('Ganador! Diagonal');
-      return;
-    }
-  }
-
-  isEqual(arr: string[]): boolean {
-    return arr.every(item => item === arr[0]);
+  getTransform(columna: number) {
+    const offset = this.offsets[columna - 1];
+    return `translateY(${offset}px)`;
   }
 
   returnHome(): void {
