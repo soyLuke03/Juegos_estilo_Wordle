@@ -1,0 +1,27 @@
+<div class="controles">
+  <button (click)="returnHome()">Volver a HOME</button>
+</div>
+
+<div class="puntuaciones">
+  <h2 class="puntuacion-total">Puntos: {{ puntuacionTotal }}</h2>
+</div>
+
+<div class="game-container">
+  <div class="pantalla-de-caballos">
+    <div class="progress-container" *ngFor="let valor of progressValues; let i = index">
+      <progress
+        class="progress-bar"
+        [value]="progressValues[i]"
+        [max]="maxValueProgressBar"
+      ></progress>
+      <div class="progress-text">
+        {{ posiciones[i] !== null ? 'Caballo ' + (i + 1) + ' | Pos: ' + posiciones[i] : 'Caballo ' + (i + 1) }}
+      </div>
+    </div>
+  </div>
+  <div class="pantalla-de-apuestas"></div>
+</div>
+
+<button class="boton-carrera" (click)="toggleCarrera()">
+  {{ carreraActiva ? 'Detener carrera' : 'Iniciar carrera' }}
+</button>

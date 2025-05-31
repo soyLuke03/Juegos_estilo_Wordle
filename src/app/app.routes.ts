@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { LolWordleGameComponent } from './games/league of legends/lol-wordle-game/lol-wordle-game.component';
 import { BlackJackComponent } from './games/casino/black-jack/black-jack.component';
 import { TragaperrasComponent } from './games/casino/tragaperras/tragaperras.component';
+import { CarrerasCaballosComponent } from './games/casino/caballos/caballos.component';
 import { FiveNights1Component } from './games/five nights/five-nights-1/five-nights-1.component';
 import { GLOBAL_CONSTANTES } from './GLOBAL_CONST';
 
@@ -32,6 +33,10 @@ export const routes: Routes = [
   {
     path: `${GLOBAL_CONSTANTES.TRAGAPERRAS_URL_ROUTE}`,
     component: TragaperrasComponent,
+  },
+  {
+    path: `${GLOBAL_CONSTANTES.CABALLOS_URL_ROUTE}`,
+    component: CarrerasCaballosComponent,
   },
   {
     path: '**',

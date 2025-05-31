@@ -1,0 +1,73 @@
+.controles {
+  margin-bottom: 1rem;
+}
+
+.puntuaciones {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.game-container {
+  width: 80vw;
+  height: auto;
+  border: 5px solid #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.pantalla-de-caballos {
+  width: 100%;
+}
+
+.progress-container {
+  position: relative;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 24px;
+  border-radius: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #eee;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+/* WebKit */
+.progress-bar::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 12px;
+}
+
+.progress-bar::-webkit-progress-value {
+  background-color: #4caf50;
+  border-radius: 12px;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Firefox */
+.progress-bar::-moz-progress-bar {
+  background-color: #4caf50;
+  border-radius: 12px;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Texto centrado dentro de la barra */
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: black;
+  pointer-events: none;
+  user-select: none;
+  font-size: 1.3rem;
+}
