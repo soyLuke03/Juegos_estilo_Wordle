@@ -522,7 +522,7 @@ export class LolWordleGameComponent implements OnInit {
       especie: [Especie.Renacido],
       recurso: Recurso.Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
-      region: [Region.Shurima],
+      region: [Region.Aguas_Estancadas],
       fechaDeLanzamiento: 2012,
     },
     {
