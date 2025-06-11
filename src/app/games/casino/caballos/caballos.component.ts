@@ -17,11 +17,21 @@ export class CarrerasCaballosComponent implements OnInit {
   puntuacionTotal: number = 0;
   maxValueProgressBar: number = 1000;
   progressValues: number[] = Array(8).fill(1);
-  posiciones: (number | null)[] = Array(8).fill(null);
+  posiciones: { caballo: number; posicion: number | null }[] = Array(8)
+    .fill(null)
+    .map((_, i) => ({ caballo: i + 1, posicion: null }));
   posicionActual: number = 1;
   intervalos: any[] = [];
   timerDeCarrera: number = 300;
   carreraActiva: boolean = false;
+
+  // Base de puntos que el usuario define
+  apuestaJugador: number = 0;
+  apuestaValida: boolean = false;
+  apuestaConfirmada: boolean = false;
+
+  // Nueva propiedad para el caballo seleccionado
+  caballoSeleccionado: number | null = null;
 
   constructor(private router: Router, private casino: CasinoService) {}
 
@@ -29,17 +39,37 @@ export class CarrerasCaballosComponent implements OnInit {
     this.puntuacionTotal = this.casino.getPuntuacionTotal();
   }
 
-  toggleCarrera() {
+  toggleCarrera(e: Event) {
     if (this.carreraActiva) {
       this.detenerCarrera();
     } else {
-      this.iniciarCarrera();
+      this.iniciarCarrera(e);
     }
   }
 
-  iniciarCarrera() {
+  iniciarCarrera(e: Event) {
+    if (
+      !this.apuestaValida ||
+      this.puntuacionTotal == 0 ||
+      this.apuestaJugador > this.puntuacionTotal ||
+      !this.apuestaConfirmada
+    ) {
+      alert('Por favor, confirma una apuesta válida antes de girar.');
+      e.preventDefault();
+      return;
+    }
+
+    if (this.caballoSeleccionado === null) {
+      alert('Por favor, selecciona un caballo para apostar.');
+      e.preventDefault();
+      return;
+    }
+
     this.carreraActiva = true;
-    this.posiciones = Array(8).fill(null);
+    this.cobrarApuesta();
+    this.posiciones = Array(8)
+      .fill(null)
+      .map((_, i) => ({ caballo: i + 1, posicion: null }));
     this.posicionActual = 1;
 
     // Reiniciamos valores a 1 para arrancar
@@ -53,28 +83,31 @@ export class CarrerasCaballosComponent implements OnInit {
     }
   }
 
+  private cobrarApuesta() {
+    this.casino.addPuntos(this.apuestaJugador, false);
+    this.puntuacionTotal = this.casino.getPuntuacionTotal();
+  }
+
   asignarPosicion(indice: number) {
     // Sólo asigna si no tiene posición ya
-    if (this.posiciones[indice] === null) {
-      this.posiciones[indice] = this.posicionActual++;
+    if (this.posiciones[indice].posicion === null) {
+      this.posiciones[indice].posicion = this.posicionActual++;
     }
   }
 
   animarBarra(indice: number) {
     const intervalo = setInterval(() => {
-      if (this.posiciones.every((pos) => pos !== null)) {
+      if (this.posiciones.every((pos) => pos.posicion !== null)) {
         this.detenerCarrera(true);
-        Swal.fire(
-          '¡Carrera terminada!',
-          'Revisa las posiciones finales.',
-          'success'
-        );
+
+        // Check if selected horse position matches horse 1 position
+        this.comprobarGanador();
         return;
       }
 
       if (
         this.progressValues[indice] < this.maxValueProgressBar &&
-        this.posiciones[indice] === null
+        this.posiciones[indice].posicion === null
       ) {
         this.progressValues[indice] += this.generarNumeroAleatorio();
 
@@ -90,13 +123,34 @@ export class CarrerasCaballosComponent implements OnInit {
     this.intervalos.push(intervalo);
   }
 
+  private comprobarGanador() {
+    if (this.caballoSeleccionado !== null &&
+      this.posiciones.find((p) => p.caballo === this.caballoSeleccionado)?.posicion ===
+      this.posiciones.find((p) => p.caballo === 1)?.posicion) {
+      Swal.fire(
+        '¡Felicidades!',
+        '¡Has ganado la apuesta con tu caballo seleccionado!',
+        'success'
+      );
+      this.casino.addPuntos(this.apuestaJugador * 5, true);
+    } else {
+      Swal.fire(
+        '¡Carrera terminada!',
+        'Revisa las posiciones finales.',
+        'success'
+      );
+    }
+  }
+
   detenerCarrera(limpiezaSolo: boolean = false) {
     this.carreraActiva = false;
     this.limpiarIntervalos();
 
     if (!limpiezaSolo) {
       this.progressValues = Array(8).fill(1);
-      this.posiciones = Array(8).fill(null);
+      this.posiciones = Array(8)
+        .fill(null)
+        .map((_, i) => ({ caballo: i + 1, posicion: null }));
       this.posicionActual = 1;
     }
   }
@@ -110,6 +164,29 @@ export class CarrerasCaballosComponent implements OnInit {
     const min = 1;
     const max = 15;
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  validarApuesta() {
+    if (this.apuestaJugador < 1 || this.apuestaJugador > this.puntuacionTotal) {
+      this.apuestaValida = false;
+    } else {
+      this.apuestaValida = true;
+    }
+
+    if (this.apuestaConfirmada && this.apuestaValida) {
+      this.apuestaConfirmada = false;
+    }
+  }
+
+  confirmarApuesta() {
+    if (this.apuestaValida) {
+      console.log('Apuesta confirmada: ' + this.apuestaJugador);
+      this.apuestaConfirmada = true; // Desactivamos el botón después de confirmar
+    } else {
+      alert(
+        'La apuesta debe ser mayor que 0 y no puede superar tus puntos disponibles.'
+      );
+    }
   }
 
   returnHome(): void {

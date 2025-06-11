@@ -8,20 +8,57 @@
 
 <div class="game-container">
   <div class="pantalla-de-caballos">
-    <div class="progress-container" *ngFor="let valor of progressValues; let i = index">
+    <div
+      class="progress-container"
+      *ngFor="let valor of progressValues; let i = index"
+    >
       <progress
         class="progress-bar"
         [value]="progressValues[i]"
         [max]="maxValueProgressBar"
       ></progress>
       <div class="progress-text">
-        {{ posiciones[i] !== null ? 'Caballo ' + (i + 1) + ' | Pos: ' + posiciones[i] : 'Caballo ' + (i + 1) }}
+        {{
+          posiciones[i].posicion !== null
+            ? "Caballo " + posiciones[i].caballo + " | Pos: " + posiciones[i].posicion
+            : "Caballo " + posiciones[i].caballo
+        }}
       </div>
     </div>
   </div>
   <div class="pantalla-de-apuestas"></div>
 </div>
 
-<button class="boton-carrera" (click)="toggleCarrera()">
-  {{ carreraActiva ? 'Detener carrera' : 'Iniciar carrera' }}
+<button class="boton-carrera" (click)="toggleCarrera($event)">
+  {{ carreraActiva ? "Detener carrera" : "Iniciar carrera" }}
 </button>
+<select [(ngModel)]="caballoSeleccionado">
+  <option [ngValue]="null" disabled selected>Selecciona un caballo</option>
+  <option [ngValue]="1">Caballo 1</option>
+  <option [ngValue]="2">Caballo 2</option>
+  <option [ngValue]="3">Caballo 3</option>
+  <option [ngValue]="4">Caballo 4</option>
+  <option [ngValue]="5">Caballo 5</option>
+  <option [ngValue]="6">Caballo 6</option>
+  <option [ngValue]="7">Caballo 7</option>
+  <option [ngValue]="8">Caballo 8</option>
+</select>
+
+<div class="container-apuesta">
+  <label for="apuesta">Introduce tu apuesta:</label>
+  <input
+    id="apuesta"
+    type="number"
+    [max]="puntuacionTotal"
+    min="1"
+    [(ngModel)]="apuestaJugador"
+    (ngModelChange)="validarApuesta()"
+  />
+  <button
+    class="confirm-bet"
+    (click)="confirmarApuesta()"
+    [disabled]="apuestaConfirmada || !apuestaValida"
+  >
+    Confirmar Apuesta
+  </button>
+</div>

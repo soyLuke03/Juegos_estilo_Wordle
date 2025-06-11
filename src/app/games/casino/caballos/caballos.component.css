@@ -71,3 +71,29 @@
   user-select: none;
   font-size: 1.3rem;
 }
+
+.container-apuesta {
+  margin-top: 20px;
+  text-align: center;
+}
+
+input[type="number"] {
+  padding: 8px;
+  font-size: 1.2em;
+  width: 100px;
+  margin-right: 10px;
+}
+
+.confirm-bet {
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
