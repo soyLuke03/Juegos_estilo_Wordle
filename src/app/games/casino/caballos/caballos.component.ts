@@ -15,14 +15,14 @@ import Swal from 'sweetalert2';
 })
 export class CarrerasCaballosComponent implements OnInit {
   puntuacionTotal: number = 0;
-  maxValueProgressBar: number = 1000;
+  maxValueProgressBar: number = 500;
   progressValues: number[] = Array(8).fill(1);
   posiciones: { caballo: number; posicion: number | null }[] = Array(8)
     .fill(null)
     .map((_, i) => ({ caballo: i + 1, posicion: null }));
   posicionActual: number = 1;
   intervalos: any[] = [];
-  timerDeCarrera: number = 300;
+  timerDeCarrera: number = 100;
   carreraActiva: boolean = false;
 
   // Base de puntos que el usuario define
@@ -124,20 +124,22 @@ export class CarrerasCaballosComponent implements OnInit {
   }
 
   private comprobarGanador() {
-    if (this.caballoSeleccionado !== null &&
-      this.posiciones.find((p) => p.caballo === this.caballoSeleccionado)?.posicion ===
-      this.posiciones.find((p) => p.caballo === 1)?.posicion) {
+    if (
+      this.caballoSeleccionado !== null &&
+      this.posiciones.find((p) => p.caballo === this.caballoSeleccionado)?.posicion === 1
+    ) {
       Swal.fire(
         '¡Felicidades!',
         '¡Has ganado la apuesta con tu caballo seleccionado!',
         'success'
       );
       this.casino.addPuntos(this.apuestaJugador * 5, true);
+      this.puntuacionTotal = this.casino.getPuntuacionTotal();
     } else {
       Swal.fire(
         '¡Carrera terminada!',
         'Revisa las posiciones finales.',
-        'success'
+        'info'
       );
     }
   }
