@@ -8,7 +8,7 @@
     "build": "npm i && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng deploy --base-href=https:/Juegos_estilo_Wordle/ --repo=https://github.com/soyLuke03/guessTheChamp.git"
+    "deploy": "npm run build && ng deploy --base-href=https:/Juegos_estilo_Wordle/ --repo=https://github.com/soyLuke03/guessTheChamp.git"
   },
   "private": true,
   "dependencies": {
