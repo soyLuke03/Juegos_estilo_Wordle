@@ -32,6 +32,16 @@ export class LolWordleGameComponent implements OnInit {
 
   campeones: ChampionCollection = [
     {
+      nombre: 'Yunara',
+      genero: Genero.Femenino,
+      posicion: [Posicion.Inferior],
+      especie: [Especie.Humano, Especie.Espiritualista],
+      recurso: Recurso.Mana,
+      tipoDeCombate: [TipoDeCombate.A_distancia],
+      region: [Region.Jonia],
+      fechaDeLanzamiento: 2025,
+    },
+    {
       nombre: 'Mel',
       genero: Genero.Femenino,
       posicion: [Posicion.Medio],
@@ -828,7 +838,7 @@ export class LolWordleGameComponent implements OnInit {
     {
       nombre: 'Garen',
       genero: Genero.Masculino,
-      posicion: [Posicion.Superior],
+      posicion: [Posicion.Superior, Posicion.Jungla],
       especie: [Especie.Humano],
       recurso: Recurso.Sin_Mana,
       tipoDeCombate: [TipoDeCombate.Cuerpo_a_cuerpo],
